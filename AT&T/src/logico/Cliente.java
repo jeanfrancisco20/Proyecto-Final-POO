@@ -1,9 +1,51 @@
 package logico;
 
+import java.util.ArrayList;
+
 public class Cliente {
-	private String id;
+	private String idCliente;
 	private String nombre;
 	private String telefono;
+	private String  direccion;
+	private ArrayList<Contrato> contratos;
+	public Cliente(String idCliente, String nombre, String telefono, String direccion) {
+		super();
+		this.idCliente = idCliente;
+		this.nombre = nombre;
+		this.telefono = telefono;
+		this.direccion = direccion;
+		this.contratos = new ArrayList<Contrato>();
+	}
+	public String getIdCliente() {
+		return idCliente;
+	}
+	public void setIdCliente(String idCliente) {
+		this.idCliente = idCliente;
+	}
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public String getTelefono() {
+		return telefono;
+	}
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+	public String getDireccion() {
+		return direccion;
+	}
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+	public ArrayList<Contrato> getContratos() {
+		return contratos;
+	}
+	public void setContratos(ArrayList<Contrato> contratos) {
+		this.contratos = contratos;
+	}
 	
 	
 }
