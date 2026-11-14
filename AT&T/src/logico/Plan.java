@@ -11,14 +11,14 @@ public class Plan {
 	private boolean estado;
 	private ArrayList<Servicio>misServicios;
 	
-	public Plan(String idPlan, String nombre, String descripcion, float precioBase, boolean estado) {
+	public Plan(String idPlan, String nombre, String descripcion, float precioBase, ArrayList<Servicio> miServicios, boolean estado) {
 		super();
 		this.idPlan = idPlan;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.precioBase = precioBase;
-		this.estado = estado;
-		this.misServicios = new ArrayList<>();
+		this.misServicios = miServicios;
+		this.estado= estado;
 	}
 
 	public String getIdPlan() {
