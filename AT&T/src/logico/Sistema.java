@@ -153,4 +153,19 @@ public class Sistema {
 	        misPlanes.add(plan);
 	    }
 	}
+	
+	public void registrarContrato(Contrato c) {
+	    boolean existe = false;
+	    
+	    for (Contrato aux : misContratos) {
+	        if (aux.getIdContrato().equals(c.getIdContrato())) {
+	            existe = true;
+	            break;
+	        }
+	    }
+	    
+	    if (!existe) {
+	        misContratos.add(c);
+	    }
+	}
 }
