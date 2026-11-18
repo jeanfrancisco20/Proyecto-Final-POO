@@ -6,17 +6,15 @@ public class Factura {
 
 	private String idFactura;
 	private Cliente cliente;
-	private Contrato contratoAsociado;
 	private Date fechaEmision;
 	private Date fechaPago;
 	private float montoTotal;
 	private boolean pagada;
-	public Factura(String idFactura, Cliente cliente, Contrato contratoAsociado, Date fechaEmision, Date fechaPago,
+	public Factura(String idFactura, Cliente cliente, Date fechaEmision, Date fechaPago,
 			float montoTotal, boolean pagada) {
 		super();
 		this.idFactura = idFactura;
 		this.cliente = cliente;
-		this.contratoAsociado = contratoAsociado;
 		this.fechaEmision = fechaEmision;
 		this.fechaPago = fechaPago;
 		this.montoTotal = montoTotal;
@@ -33,12 +31,6 @@ public class Factura {
 	}
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
-	}
-	public Contrato getContratoAsociado() {
-		return contratoAsociado;
-	}
-	public void setContratoAsociado(Contrato contratoAsociado) {
-		this.contratoAsociado = contratoAsociado;
 	}
 	public Date getFechaEmision() {
 		return fechaEmision;

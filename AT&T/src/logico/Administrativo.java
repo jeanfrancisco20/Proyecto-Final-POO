@@ -1,12 +1,14 @@
 package logico;
 
+import java.util.Date;
+
 public class Administrativo extends Empleado {
 
 	private float bonoAnual;
 	
 	public Administrativo(String idEmpleado, String nombre, String puesto, int horasTrabajadas, float pagoXHora,
-			float bonoAnual) {
-		super(idEmpleado, nombre, puesto, horasTrabajadas, pagoXHora);
+			float bonoAnual, Date fechaIngreso) {
+		super(idEmpleado, nombre, puesto, horasTrabajadas, pagoXHora, fechaIngreso);
 		this.bonoAnual = bonoAnual;
 	}
 

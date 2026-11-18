@@ -8,6 +8,7 @@ public class Cliente {
 	private String telefono;
 	private String  direccion;
 	private ArrayList<Contrato> contratos;
+	
 	public Cliente(String idCliente, String nombre, String telefono, String direccion) {
 		super();
 		this.idCliente = idCliente;

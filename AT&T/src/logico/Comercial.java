@@ -1,13 +1,15 @@
 package logico;
 
+import java.util.Date;
+
 public class Comercial extends Empleado {
 
 	private int ventasRealizadas;
 	private float comisionPorVenta;
 	
 	public Comercial(String idEmpleado, String nombre, String puesto, int horasTrabajadas, float pagoXHora,
-			int ventasRealizadas, float comisionPorVenta) {
-		super(idEmpleado, nombre, puesto, horasTrabajadas, pagoXHora);
+			Date fechaIngreso, int ventasRealizadas, float comisionPorVenta) {
+		super(idEmpleado, nombre, puesto, horasTrabajadas, pagoXHora, fechaIngreso);
 		this.ventasRealizadas = ventasRealizadas;
 		this.comisionPorVenta = comisionPorVenta;
 	}

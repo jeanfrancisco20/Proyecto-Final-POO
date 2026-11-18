@@ -1,5 +1,6 @@
 package logico;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Contrato {
@@ -11,6 +12,7 @@ public class Contrato {
 	private Date fechaInicio;
 	private String estadoContrato;
 	private float cargoFijoMensual;
+	private ArrayList<Factura> facturas;
 	public Contrato(String idContrato, Cliente cliente, Plan plan, Comercial comercialAsignado, Date fechaInicio,
 			String estadoContrato, float cargoFijoMensual) {
 		super();
@@ -21,6 +23,7 @@ public class Contrato {
 		this.fechaInicio = fechaInicio;
 		this.estadoContrato = estadoContrato;
 		this.cargoFijoMensual = cargoFijoMensual;
+		this.facturas= new ArrayList<Factura>();
 	}
 	public String getIdContrato() {
 		return idContrato;
@@ -64,6 +67,10 @@ public class Contrato {
 	public void setCargoFijoMensual(float cargoFijoMensual) {
 		this.cargoFijoMensual = cargoFijoMensual;
 	}
-	
-	
+	public ArrayList<Factura> getFacturas() {
+		return facturas;
+	}
+	public void setFacturas(ArrayList<Factura> facturas) {
+		this.facturas = facturas;
+	}
 }

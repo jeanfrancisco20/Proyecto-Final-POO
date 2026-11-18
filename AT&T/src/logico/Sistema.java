@@ -10,7 +10,6 @@ public class Sistema {
 	private ArrayList<Contrato> misContratos;
 	private ArrayList<Factura> misFacturas;
 	private ArrayList<Cliente> misClientes;
-	private ArrayList<Reporte> misReportes;
 	private static Sistema sistema= null;
 	
 	public Sistema() {
@@ -21,7 +20,6 @@ public class Sistema {
 		this.misContratos = new ArrayList<Contrato>();
 		this.misFacturas = new ArrayList<Factura>();
 		this.misClientes = new ArrayList<Cliente>();
-		this.misReportes = new ArrayList<Reporte>();
 	}
 	public static Sistema getInstance() {
 		if (sistema==null) {
@@ -65,12 +63,7 @@ public class Sistema {
 	public void setMisClientes(ArrayList<Cliente> misClientes) {
 		this.misClientes = misClientes;
 	}
-	public ArrayList<Reporte> getMisReportes() {
-		return misReportes;
-	}
-	public void setMisReportes(ArrayList<Reporte> misReportes) {
-		this.misReportes = misReportes;
-	}
+
 	public Cliente buscarClientePorId(String id) {
 		Cliente cliente= null;
 		for (Cliente c: misClientes) {
