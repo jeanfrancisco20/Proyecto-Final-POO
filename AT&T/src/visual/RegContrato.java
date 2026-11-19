@@ -61,7 +61,7 @@ public class RegContrato extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Id contrato");
+		JLabel lblNewLabel = new JLabel("Identificador:");
 		lblNewLabel.setBounds(10, 11, 100, 14);
 		contentPanel.add(lblNewLabel);
 		
@@ -70,8 +70,8 @@ public class RegContrato extends JDialog {
 		contentPanel.add(txtIDcontrato);
 		txtIDcontrato.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("Clientes");
-		lblNewLabel_1.setBounds(10, 57, 46, 14);
+		JLabel lblNewLabel_1 = new JLabel("Clientes:");
+		lblNewLabel_1.setBounds(10, 57, 80, 14);
 		contentPanel.add(lblNewLabel_1);
 		
 		cbxClientes = new JComboBox<>();
@@ -82,7 +82,7 @@ public class RegContrato extends JDialog {
 		cbxPlanes.setBounds(220, 74, 200, 20);
 		contentPanel.add(cbxPlanes);
 		
-		JLabel lblPlanes = new JLabel("Planes");
+		JLabel lblPlanes = new JLabel("Planes:");
 		lblPlanes.setBounds(220, 57, 46, 14);
 		contentPanel.add(lblPlanes);
 		
@@ -90,7 +90,7 @@ public class RegContrato extends JDialog {
 		cbxComerciales.setBounds(10, 122, 200, 20);
 		contentPanel.add(cbxComerciales);
 		
-		JLabel lblComerciales = new JLabel("Comerciales");
+		JLabel lblComerciales = new JLabel("Comerciales:");
 		lblComerciales.setBounds(10, 105, 80, 14);
 		contentPanel.add(lblComerciales);
 		
@@ -99,7 +99,7 @@ public class RegContrato extends JDialog {
 		txtFecha.setBounds(220, 122, 200, 20);
 		contentPanel.add(txtFecha);
 		
-		JLabel lblFechaDeInicio = new JLabel("Fecha de inicio");
+		JLabel lblFechaDeInicio = new JLabel("Fecha de inicio:");
 		lblFechaDeInicio.setBounds(220, 107, 100, 14);
 		contentPanel.add(lblFechaDeInicio);
 		
@@ -108,8 +108,8 @@ public class RegContrato extends JDialog {
 		txtEstadoContrato.setBounds(10, 174, 200, 20);
 		contentPanel.add(txtEstadoContrato);
 		
-		JLabel lblEstadoDeContrato = new JLabel("Estado de contrato");
-		lblEstadoDeContrato.setBounds(10, 159, 110, 14);
+		JLabel lblEstadoDeContrato = new JLabel("Estado de contrato:");
+		lblEstadoDeContrato.setBounds(10, 159, 120, 14);
 		contentPanel.add(lblEstadoDeContrato);
 		
 		txtCargoMensual = new JTextField();
@@ -117,7 +117,7 @@ public class RegContrato extends JDialog {
 		txtCargoMensual.setBounds(220, 174, 200, 20);
 		contentPanel.add(txtCargoMensual);
 		
-		JLabel lblCargoMensual = new JLabel("Cargo mensual");
+		JLabel lblCargoMensual = new JLabel("Cargo mensual:");
 		lblCargoMensual.setBounds(220, 159, 100, 14);
 		contentPanel.add(lblCargoMensual);
 		
@@ -159,6 +159,9 @@ public class RegContrato extends JDialog {
 	}
 
 	private void cargarCombos() {
+		cbxClientes.removeAllItems();
+		cbxComerciales.removeAllItems();
+		cbxPlanes.removeAllItems();
 		for (Cliente cliente : Sistema.getInstance().getMisClientes()) {
 			cbxClientes.addItem(cliente);
 		}
