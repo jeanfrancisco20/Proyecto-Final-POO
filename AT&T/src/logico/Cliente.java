@@ -8,6 +8,7 @@ public class Cliente {
 	private String telefono;
 	private String  direccion;
 	private ArrayList<Contrato> contratos;
+	private ArrayList<Factura> facturas;
 	
 	public Cliente(String idCliente, String nombre, String telefono, String direccion) {
 		super();
@@ -16,6 +17,7 @@ public class Cliente {
 		this.telefono = telefono;
 		this.direccion = direccion;
 		this.contratos = new ArrayList<Contrato>();
+		this.facturas = new ArrayList<Factura>();
 	}
 	public String getIdCliente() {
 		return idCliente;
@@ -46,6 +48,12 @@ public class Cliente {
 	}
 	public void setContratos(ArrayList<Contrato> contratos) {
 		this.contratos = contratos;
+	}
+	public ArrayList<Factura> getFacturas() {
+		return facturas;
+	}
+	public void setFacturas(ArrayList<Factura> facturas) {
+		this.facturas = facturas;
 	}
 	
 	
