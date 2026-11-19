@@ -7,15 +7,17 @@ public class Cliente {
 	private String nombre;
 	private String telefono;
 	private String  direccion;
+	private boolean desactivado;
 	private ArrayList<Contrato> contratos;
 	private ArrayList<Factura> facturas;
 	
-	public Cliente(String idCliente, String nombre, String telefono, String direccion) {
+	public Cliente(String idCliente, String nombre, String telefono, String direccion, boolean desactivado) {
 		super();
 		this.idCliente = idCliente;
 		this.nombre = nombre;
 		this.telefono = telefono;
 		this.direccion = direccion;
+		this.desactivado = desactivado;
 		this.contratos = new ArrayList<Contrato>();
 		this.facturas = new ArrayList<Factura>();
 	}
@@ -55,6 +57,27 @@ public class Cliente {
 	public void setFacturas(ArrayList<Factura> facturas) {
 		this.facturas = facturas;
 	}
-	
+	public boolean isDesactivado() {
+		return desactivado;
+	}
+	public void setDesactivado(boolean desactivado) {
+		this.desactivado = desactivado;
+	}
+	public int facturasPorPagar() {
+		int cont= 0;
+		
+		for(int i=0; i<facturas.size(); i++) {
+			if(!facturas.get(i).isPagada()) {
+				cont++;
+			}
+		}
+		if (cont>2) {
+			desactivado= true;
+		}
+		else {
+			desactivado= false;
+		}
+		return cont;
+	}
 	
 }

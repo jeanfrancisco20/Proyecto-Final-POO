@@ -1,6 +1,7 @@
 package logico;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Sistema {
 
@@ -106,7 +107,14 @@ public class Sistema {
 	}
 	public void registrarPagoFactura(String idfactura) {
 		Factura factura= buscarFacturaPorId(idfactura);
-		factura.setPagada(true);
+		if (factura != null && !factura.isPagada()) {
+			factura.setPagada(true);
+			factura.setFechaPago(new Date());
+			
+			if (factura.getCliente() != null) {
+				factura.getCliente().facturasPorPagar();
+			}
+		}
 	}
 	public ArrayList<Factura> obtenerFacturasPendientes(){
 		ArrayList<Factura> pendientes= new ArrayList<>();
@@ -147,18 +155,64 @@ public class Sistema {
 	    }
 	}
 	
-	public void registrarContrato(Contrato c) {
-	    boolean existe = false;
+	public void registrarContrato(Contrato contrato) {
+		if (contrato == null || contrato.getCliente() == null) {
+			return;
+		}
+		
+		boolean existe = false;
+	    boolean deuda= false;
 	    
 	    for (Contrato aux : misContratos) {
-	        if (aux.getIdContrato().equals(c.getIdContrato())) {
+	        if (aux.getIdContrato().equals(contrato.getIdContrato())) {
 	            existe = true;
 	            break;
 	        }
 	    }
 	    
-	    if (!existe) {
-	        misContratos.add(c);
+	    Cliente cliente= contrato.getCliente();
+	    cliente.facturasPorPagar();
+	    deuda = cliente.isDesactivado();
+	    
+	    if (!existe && !deuda) {
+	        misContratos.add(contrato);
 	    }
+	}
+	
+	private float calcularMontoCliente(Cliente cliente) {
+		float total= 0.0f;
+		
+		for (Contrato contrato: misContratos) {
+			if (contrato.getCliente()!= null && contrato.getCliente().getIdCliente().equalsIgnoreCase(cliente.getIdCliente())&&
+					contrato.getPlan() != null) {
+				total += contrato.getPlan().getPrecioBase();
+			}
+		}
+		return total;
+	}
+	
+	public ArrayList<Factura> generarFacturasTodosLosClientes(){
+		ArrayList<Factura> generadas= new ArrayList<>();
+		int numeroId= misFacturas.size() + 1;
+		
+		for (Cliente cliente: misClientes) {
+			float monto= calcularMontoCliente(cliente);
+			
+			if(monto > 0) {
+				String idFactura= "FAC-"+numeroId;
+				numeroId++;
+				
+				Factura nuevaFactura= new Factura(idFactura, cliente, new Date(), null, monto, false);
+				
+				misFacturas.add(nuevaFactura);
+				generadas.add(nuevaFactura);
+				
+				if (cliente.getFacturas() != null) {
+					cliente.getFacturas().add(nuevaFactura);
+					cliente.facturasPorPagar();
+				}
+			}
+		}
+		return generadas;
 	}
 }
