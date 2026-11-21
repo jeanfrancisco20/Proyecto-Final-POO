@@ -155,6 +155,10 @@ public class Sistema {
 	    }
 	}
 	
+	public void registrarEmpleado(Empleado empleado) {
+		misEmpleados.add(empleado);
+	}
+	
 	public void registrarContrato(Contrato contrato) {
 		if (contrato == null || contrato.getCliente() == null) {
 			return;
@@ -215,4 +219,5 @@ public class Sistema {
 		}
 		return generadas;
 	}
+	
 }

@@ -10,11 +10,11 @@ public class Contrato {
 	private Plan plan;
 	private Comercial comercialAsignado;
 	private Date fechaInicio;
-	private String estadoContrato;
+	private boolean estadoContrato;
 	private float cargoFijoMensual;
 	private ArrayList<Factura> facturas;
 	public Contrato(String idContrato, Cliente cliente, Plan plan, Comercial comercialAsignado, Date fechaInicio,
-			String estadoContrato, float cargoFijoMensual) {
+			boolean estadoContrato, float cargoFijoMensual) {
 		super();
 		this.idContrato = idContrato;
 		this.cliente = cliente;
@@ -55,10 +55,10 @@ public class Contrato {
 	public void setFechaInicio(Date fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
-	public String getEstadoContrato() {
+	public boolean getEstadoContrato() {
 		return estadoContrato;
 	}
-	public void setEstadoContrato(String estadoContrato) {
+	public void setEstadoContrato(boolean estadoContrato) {
 		this.estadoContrato = estadoContrato;
 	}
 	public float getCargoFijoMensual() {
