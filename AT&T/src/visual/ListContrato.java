@@ -33,7 +33,7 @@ public class ListContrato extends JDialog {
 	 */
 	public ListContrato() {
 		setTitle("Listar contratos");
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 800, 600);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());

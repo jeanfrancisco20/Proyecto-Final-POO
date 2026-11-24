@@ -13,6 +13,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import logico.Factura;
+import logico.Plan;
 import logico.Sistema;
 
 import javax.swing.JScrollPane;
@@ -46,7 +47,7 @@ public class ListarFacturas extends JDialog {
 	 */
 	public ListarFacturas() {
 		setTitle("Listado de Facturas");
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 800, 600);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -127,7 +128,7 @@ public class ListarFacturas extends JDialog {
 	}
 	
 	private void cargarFacturas() {
-		String[] columna = {"Id", "Cliente", "Estado", "Monto"};
+		String[] columna = {"Id", "Nombre", "Estado", "Monto"};
 		modelo.setDataVector(null, columna);
 		for (Factura f: Sistema.getInstance().getMisFacturas()) {
 			String nombreCliente= f.getCliente().getNombre();
