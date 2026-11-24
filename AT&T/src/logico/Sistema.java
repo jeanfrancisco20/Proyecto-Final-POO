@@ -220,4 +220,10 @@ public class Sistema {
 		return generadas;
 	}
 	
+	public void eliminarContrato(String id) {
+		Contrato aux = buscarContratoPorId(id);
+		if(aux != null) {
+			misClientes.remove(aux);
+		}
+	}
 }
