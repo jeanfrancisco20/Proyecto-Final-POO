@@ -40,6 +40,7 @@ public class RegContrato extends JDialog {
 	private JTextField txtDireCliente;
 	private JTextField txtTelCliente;
 	private Cliente clienteActual = null;
+	private JTextField txtContrasena;
 	
 	public static void main(String[] args) {
 		try {
@@ -56,7 +57,7 @@ public class RegContrato extends JDialog {
 		this.esEdicion = (this.contratoAEditar != null);
 
 		setTitle(esEdicion ? "Modificar Contrato" : "Crear Nuevo Contrato");
-		setBounds(100, 100, 470, 349);
+		setBounds(100, 100, 470, 416);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -64,46 +65,46 @@ public class RegContrato extends JDialog {
 		contentPanel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Identificador factura:");
-		lblNewLabel.setBounds(222, 213, 156, 14);
+		lblNewLabel.setBounds(224, 217, 156, 14);
 		contentPanel.add(lblNewLabel);
 		
 		txtIDcontrato = new JTextField();
-		txtIDcontrato.setBounds(222, 228, 200, 22);
+		txtIDcontrato.setBounds(224, 232, 200, 22);
 		contentPanel.add(txtIDcontrato);
 		txtIDcontrato.setColumns(10);
 		
 		cbxPlanes = new JComboBox<>();
-		cbxPlanes.setBounds(222, 130, 200, 22);
+		cbxPlanes.setBounds(12, 180, 200, 22);
 		contentPanel.add(cbxPlanes);
 		
 		JLabel lblPlanes = new JLabel("Planes:");
-		lblPlanes.setBounds(222, 113, 46, 14);
+		lblPlanes.setBounds(12, 163, 46, 14);
 		contentPanel.add(lblPlanes);
 		
 		cbxComerciales = new JComboBox<>();
-		cbxComerciales.setBounds(12, 178, 200, 22);
+		cbxComerciales.setBounds(12, 232, 200, 22);
 		contentPanel.add(cbxComerciales);
 		
 		JLabel lblComerciales = new JLabel("Comerciales:");
-		lblComerciales.setBounds(12, 161, 80, 14);
+		lblComerciales.setBounds(12, 215, 80, 14);
 		contentPanel.add(lblComerciales);
 		
 		txtFecha = new JTextField();
 		txtFecha.setColumns(10);
-		txtFecha.setBounds(222, 178, 200, 22);
+		txtFecha.setBounds(224, 182, 200, 22);
 		contentPanel.add(txtFecha);
 		
 		JLabel lblFechaDeInicio = new JLabel("Fecha de inicio:");
-		lblFechaDeInicio.setBounds(222, 163, 100, 14);
+		lblFechaDeInicio.setBounds(224, 167, 100, 14);
 		contentPanel.add(lblFechaDeInicio);
 		
 		txtCargoMensual = new JTextField();
 		txtCargoMensual.setColumns(10);
-		txtCargoMensual.setBounds(12, 228, 200, 22);
+		txtCargoMensual.setBounds(12, 282, 200, 22);
 		contentPanel.add(txtCargoMensual);
 		
 		JLabel lblCargoMensual = new JLabel("Cargo mensual:");
-		lblCargoMensual.setBounds(12, 213, 100, 14);
+		lblCargoMensual.setBounds(12, 267, 100, 14);
 		contentPanel.add(lblCargoMensual);
 		
 		JLabel lblNewLabel_2 = new JLabel("Identificador cliente:");
@@ -166,6 +167,15 @@ public class RegContrato extends JDialog {
 		txtTelCliente.setColumns(10);
 		txtTelCliente.setBounds(12, 132, 200, 22);
 		contentPanel.add(txtTelCliente);
+		
+		txtContrasena = new JTextField();
+		txtContrasena.setColumns(10);
+		txtContrasena.setBounds(224, 132, 200, 22);
+		contentPanel.add(txtContrasena);
+		
+		JLabel lblContraseaCliente = new JLabel("Contrase\u00F1a cliente:");
+		lblContraseaCliente.setBounds(224, 117, 123, 14);
+		contentPanel.add(lblContraseaCliente);
 		
 		{
 			JPanel buttonPane = new JPanel();
@@ -234,6 +244,7 @@ public class RegContrato extends JDialog {
 		String idContrato = txtIDcontrato.getText().trim();
 		String idCliente = txtIdcliente.getText().trim();
 		String nombreCli = txtNomCliente.getText().trim();
+		String contrasenaCli = txtContrasena.getText().trim();
 		String direCli = txtDireCliente.getText().trim();
 		String telCli = txtTelCliente.getText().trim();
 		Plan planSel = (Plan) cbxPlanes.getSelectedItem();
@@ -258,7 +269,7 @@ public class RegContrato extends JDialog {
 		}
 
 		if (clienteActual == null) {
-			clienteActual = new Cliente(idCliente, nombreCli, telCli, direCli, true); 
+			clienteActual = new Cliente(idCliente, nombreCli, contrasenaCli, telCli, direCli, true); 
 			Sistema.getInstance().getMisClientes().add(clienteActual); 
 		} else {
 			clienteActual.setNombre(nombreCli);

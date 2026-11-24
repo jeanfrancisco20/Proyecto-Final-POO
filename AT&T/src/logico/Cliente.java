@@ -2,19 +2,17 @@ package logico;
 
 import java.util.ArrayList;
 
-public class Cliente {
+public class Cliente extends Persona{
 	private String idCliente;
-	private String nombre;
 	private String telefono;
 	private String  direccion;
 	private boolean desactivado;
 	private ArrayList<Contrato> contratos;
 	private ArrayList<Factura> facturas;
 	
-	public Cliente(String idCliente, String nombre, String telefono, String direccion, boolean desactivado) {
-		super();
+	public Cliente(String nombre, String contrasena, String idCliente, String telefono, String direccion, boolean desactivado) {
+		super(nombre, contrasena);
 		this.idCliente = idCliente;
-		this.nombre = nombre;
 		this.telefono = telefono;
 		this.direccion = direccion;
 		this.desactivado = desactivado;

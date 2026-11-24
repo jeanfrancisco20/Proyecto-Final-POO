@@ -6,9 +6,9 @@ public class Administrativo extends Empleado {
 
 	private float bonoAnual;
 	
-	public Administrativo(String idEmpleado, String nombre, String puesto, int horasTrabajadas, float pagoXHora,
+	public Administrativo(String idEmpleado, String contrasena, String nombre, String puesto, int horasTrabajadas, float pagoXHora,
 			float bonoAnual, Date fechaIngreso) {
-		super(idEmpleado, nombre, puesto, horasTrabajadas, pagoXHora, fechaIngreso);
+		super(idEmpleado, nombre, contrasena, puesto, horasTrabajadas, pagoXHora, fechaIngreso);
 		this.bonoAnual = bonoAnual;
 	}
 

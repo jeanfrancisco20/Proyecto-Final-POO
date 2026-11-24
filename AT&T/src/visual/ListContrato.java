@@ -107,6 +107,12 @@ public class ListContrato extends JDialog {
 				vdbtn = new JButton("Ver detalles/Editar");
 				vdbtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+						RegContrato rg = new RegContrato(contrato);
+						rg.setModal(true);
+						rg.setVisible(true);
+						loadContratos();
+						vdbtn.setEnabled(false);
+						deletebtn.setEnabled(false);
 					}
 				});
 				vdbtn.setEnabled(false);
