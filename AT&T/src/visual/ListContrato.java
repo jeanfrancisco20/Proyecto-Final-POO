@@ -105,6 +105,10 @@ public class ListContrato extends JDialog {
 			}
 			{
 				vdbtn = new JButton("Ver detalles/Editar");
+				vdbtn.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+					}
+				});
 				vdbtn.setEnabled(false);
 				buttonPane.add(vdbtn);
 			}
