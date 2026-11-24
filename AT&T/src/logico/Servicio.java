@@ -1,8 +1,12 @@
 package logico;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public abstract class Servicio {
+public abstract class Servicio implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+
 	protected String idServicio;
 	protected boolean estado;
 	protected Date fechaContratacion;

@@ -1,8 +1,12 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Cliente extends Persona{
+public class Cliente extends Persona implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+
 	private String idCliente;
 	private String telefono;
 	private String  direccion;

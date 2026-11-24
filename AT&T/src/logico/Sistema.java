@@ -1,9 +1,12 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Sistema {
+public class Sistema implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 
 	private ArrayList<Empleado> misEmpleados;
 	private ArrayList<Plan> misPlanes;
@@ -222,8 +225,8 @@ public class Sistema {
 	
 	public void eliminarContrato(String id) {
 		Contrato aux = buscarContratoPorId(id);
-		if(aux != null) {
-			misClientes.remove(aux);
+		if(aux != null && aux.getEstadoContrato() == true) {
+			misContratos.remove(aux);
 		}
 	}
 }
