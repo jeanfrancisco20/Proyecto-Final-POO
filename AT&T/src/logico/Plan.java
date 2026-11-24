@@ -69,5 +69,4 @@ public class Plan {
 		this.misServicios = misServicios;
 	}
 	
-	
 }

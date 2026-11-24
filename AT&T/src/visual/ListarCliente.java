@@ -33,7 +33,7 @@ public class ListarCliente extends JDialog {
 	 */
 	public ListarCliente() {
 		setTitle("Listar Cliente");
-		setBounds(100, 100, 529, 359);
+		setBounds(100, 100, 800, 600);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
