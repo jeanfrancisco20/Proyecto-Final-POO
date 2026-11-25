@@ -2,27 +2,23 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.management.modelmbean.ModelMBeanOperationInfo;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.IconifyAction;
 import javax.swing.table.DefaultTableModel;
 
 import logico.Cliente;
 import logico.Contrato;
-import logico.Plan;
 import logico.Sistema;
-
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class ListarCliente extends JDialog {
 
@@ -33,9 +29,6 @@ public class ListarCliente extends JDialog {
 	private JButton btnSalir;
 	private JButton btnEditar;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		try {
 			ListarCliente dialog = new ListarCliente();
@@ -46,9 +39,6 @@ public class ListarCliente extends JDialog {
 		}
 	}
 
-	/**
-	 * Create the dialog.
-	 */
 	public ListarCliente() {
 		setTitle("Listar Cliente");
 		setBounds(100, 100, 800, 600);
@@ -65,13 +55,13 @@ public class ListarCliente extends JDialog {
 				JScrollPane scrollPane = new JScrollPane();
 				panel.add(scrollPane, BorderLayout.CENTER);
 				{
-					modelo= new DefaultTableModel() {
+					modelo = new DefaultTableModel() {
 						@Override
 						public boolean isCellEditable(int row, int column) {
 							return false;
 						}
 					};
-					table = new JTable();
+					table = new JTable(modelo);
 					scrollPane.setViewportView(table);
 				}
 			}
@@ -111,35 +101,38 @@ public class ListarCliente extends JDialog {
 				buttonPane.add(btnSalir);
 			}
 		}
+
+		configurarSeleccionTabla();
+		cargarClientes();
 	}
+
 	private void cargarClientes() {
-		String[] columna = {"Id","Nombre" , "Telefono","Desactivado"};
+		String[] columna = { "Id", "Nombre", "Telefono", "Estado" };
 		modelo.setDataVector(null, columna);
-		for (Cliente cliente: Sistema.getInstance().getMisClientes()) {
+		for (Cliente cliente : Sistema.getInstance().getMisClientes()) {
 			String telefono = cliente.getTelefono();
-			String nombre = cliente.getNombre();
-			String desactivado = cliente.isDesactivado() ? "Activo" : "Desactivo";
-			
-			Object[] fila = {cliente.getIdCliente(), nombre ,telefono, desactivado};
+			String estado = cliente.isDesactivado() ? "Desactivado" : "Activo";
+
+			Object[] fila = { cliente.getIdCliente(), cliente.getNombre(), telefono, estado };
 			modelo.addRow(fila);
 		}
 		btnEliminar.setEnabled(false);
 		btnEditar.setEnabled(false);
 	}
+
 	private void configurarSeleccionTabla() {
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				// TODO Auto-generated method stub
 				if (!e.getValueIsAdjusting()) {
 					boolean seleccionada = table.getSelectedRow() != -1;
 					btnEliminar.setEnabled(seleccionada);
 					btnEditar.setEnabled(seleccionada);
 				}
-				
 			}
 		});
 	}
+
 	private void abrirDetalleCliente() {
 		int fila = table.getSelectedRow();
 		if (fila == -1) {
@@ -147,48 +140,55 @@ public class ListarCliente extends JDialog {
 		}
 		String idCliente = modelo.getValueAt(fila, 0).toString();
 		Cliente cliente = Sistema.getInstance().buscarClientePorId(idCliente);
-		
+
 		if (cliente != null) {
 			DetalleCliente detalleCliente = new DetalleCliente(cliente);
 			detalleCliente.setModal(true);
 			detalleCliente.setVisible(true);
+			cargarClientes();
 		} else {
-			JOptionPane.showMessageDialog(this, "No se encontro el cliente seleccionado.", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "No se encontro el cliente seleccionado.", "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
+
 	private void eliminarCliente() {
 		int fila = table.getSelectedRow();
 		if (fila == -1) {
 			return;
 		}
-		
+
 		Object valor = modelo.getValueAt(fila, 0);
 		if (valor == null) {
 			return;
 		}
-		
+
 		String idCliente = valor.toString();
 		Cliente cliente = Sistema.getInstance().buscarClientePorId(idCliente);
-		
+
 		if (cliente == null) {
 			return;
 		}
-		
-		for (Contrato contrato: Sistema.getInstance().getMisContratos()) {
+
+		for (Contrato contrato : Sistema.getInstance().getMisContratos()) {
 			if (!contrato.getEstadoContrato() || contrato.getCliente() == null) {
 				continue;
-			} 
-			
+			}
+
 			if (cliente.getIdCliente().equals(contrato.getCliente().getIdCliente())) {
-				JOptionPane.showConfirmDialog(this, "No se puede eliminar un cliente que este activo en un contrato.", "Error", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this,
+						"No se puede eliminar un cliente que este activo en un contrato.", "Error",
+						JOptionPane.WARNING_MESSAGE);
 				return;
 			}
 		}
-		int opcion = JOptionPane.showConfirmDialog(this, "¿Está seguro que desea eliminar este cliente?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
-		
-		if(opcion == JOptionPane.YES_OPTION) {
+		int opcion = JOptionPane.showConfirmDialog(this, "¿Está seguro que desea eliminar este cliente?",
+				"Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+
+		if (opcion == JOptionPane.YES_OPTION) {
 			Sistema.getInstance().getMisClientes().remove(cliente);
-			JOptionPane.showConfirmDialog(this, "Cliente eliminado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Cliente eliminado con éxito.", "Éxito",
+					JOptionPane.INFORMATION_MESSAGE);
 			cargarClientes();
 		}
 	}
