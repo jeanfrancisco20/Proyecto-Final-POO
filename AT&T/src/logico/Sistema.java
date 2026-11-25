@@ -189,6 +189,11 @@ public class Sistema implements Serializable{
 	    if (!existe && !deuda) {
 	        misContratos.add(contrato);
 	    }
+	    
+	    if (contrato.getComercialAsignado() instanceof Comercial) {
+	    	Comercial comercial = (Comercial) contrato.getComercialAsignado();
+	    	comercial.setVentasRealizadas(comercial.getVentasRealizadas() + 1);
+	    }
 	}
 	
 	private float calcularMontoCliente(Cliente cliente) {
