@@ -286,7 +286,7 @@ public class RegEmpleado extends JDialog {
 						if (e == null) {
 							Empleado empleado = null;
 							if ("Administrador".equalsIgnoreCase(tipo)) {
-								empleado = new Administrativo(txtIDEmpleado.getText().trim(), n, pass, p, h, pagoHora, bono, fechaIngreso);
+								empleado = new Administrativo(txtIDEmpleado.getText().trim(), n, pass, p, h, pagoHora, fechaIngreso, bono);
 							} else if ("Comercial".equalsIgnoreCase(tipo)) {
 								empleado = new Comercial(txtIDEmpleado.getText().trim(), n, pass, p, h, pagoHora, fechaIngreso, (int) spnVentas.getValue(), comision);
 							}
