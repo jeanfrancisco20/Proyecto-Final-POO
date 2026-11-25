@@ -144,7 +144,7 @@ public class ListContrato extends JDialog {
 		for(Contrato aux : Sistema.getInstance().getMisContratos()) {
 			row = new Object[model.getColumnCount()];
 			row[0] = aux.getIdContrato();
-			row[1] = aux.getFechaInicio().toString();
+			row[1] = (aux.getFechaInicio() != null) ? aux.getFechaInicio().toString() : "";
 			row[2] = aux.getCargoFijoMensual();
 			model.addRow(row);
 		}
