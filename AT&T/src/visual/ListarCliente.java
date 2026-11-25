@@ -27,7 +27,6 @@ public class ListarCliente extends JDialog {
 	private DefaultTableModel modelo;
 	private JButton btnEliminar;
 	private JButton btnSalir;
-	private JButton btnEditar;
 
 	public static void main(String[] args) {
 		try {
@@ -71,17 +70,6 @@ public class ListarCliente extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				btnEditar = new JButton("Editar");
-				btnEditar.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						abrirDetalleCliente();
-					}
-				});
-				btnEditar.setActionCommand("OK");
-				buttonPane.add(btnEditar);
-				getRootPane().setDefaultButton(btnEditar);
-			}
-			{
 				btnEliminar = new JButton("Eliminar");
 				btnEliminar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -117,7 +105,6 @@ public class ListarCliente extends JDialog {
 			modelo.addRow(fila);
 		}
 		btnEliminar.setEnabled(false);
-		btnEditar.setEnabled(false);
 	}
 
 	private void configurarSeleccionTabla() {
@@ -127,29 +114,9 @@ public class ListarCliente extends JDialog {
 				if (!e.getValueIsAdjusting()) {
 					boolean seleccionada = table.getSelectedRow() != -1;
 					btnEliminar.setEnabled(seleccionada);
-					btnEditar.setEnabled(seleccionada);
 				}
 			}
 		});
-	}
-
-	private void abrirDetalleCliente() {
-		int fila = table.getSelectedRow();
-		if (fila == -1) {
-			return;
-		}
-		String idCliente = modelo.getValueAt(fila, 0).toString();
-		Cliente cliente = Sistema.getInstance().buscarClientePorId(idCliente);
-
-		if (cliente != null) {
-			DetalleCliente detalleCliente = new DetalleCliente(cliente);
-			detalleCliente.setModal(true);
-			detalleCliente.setVisible(true);
-			cargarClientes();
-		} else {
-			JOptionPane.showMessageDialog(this, "No se encontro el cliente seleccionado.", "Error",
-					JOptionPane.ERROR_MESSAGE);
-		}
 	}
 
 	private void eliminarCliente() {

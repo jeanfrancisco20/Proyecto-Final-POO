@@ -62,7 +62,7 @@ public class Login extends JFrame {
 					ObjectOutputStream dataWrite = new ObjectOutputStream(data2)) {
 
 				Date fecha = new Date();
-				Empleado aux = new Administrativo("1", "Admin", "Admin", "Administrador", 0, 0f, 0f, fecha);
+				Empleado aux = new Administrativo("1", "Admin", "Admin", "Administrador", 0, 0f, fecha, 0f);
 				Sistema.getInstance().registrarEmpleado(aux);
 				dataWrite.writeObject(Sistema.getInstance());
 			} catch (IOException e1) {

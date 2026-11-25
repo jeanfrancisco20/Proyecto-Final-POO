@@ -129,6 +129,14 @@ public class Principal extends JFrame {
 		mnNewMenu_2.add(mntmNewMenuItem);
 
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Manejo de Empleados");
+		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				NominaEmpleado nominaEmpleado = new NominaEmpleado();
+				aplicarTemaOscuro(nominaEmpleado);
+				nominaEmpleado.setModal(true);
+				nominaEmpleado.setVisible(true);
+			}
+		});
 		mnNewMenu_2.add(mntmNewMenuItem_2);
 
 		JMenuItem mntmNewMenu_1 = new JMenuItem("Lista de Clientes");

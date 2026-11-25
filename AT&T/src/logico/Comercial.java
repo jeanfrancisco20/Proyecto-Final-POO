@@ -13,7 +13,7 @@ public class Comercial extends Empleado {
 	
 	public Comercial(String idEmpleado, String nombre, String contrasena, String puesto, int horasTrabajadas, float pagoXHora,
 			Date fechaIngreso, int ventasRealizadas, float comisionPorVenta) {
-		super(idEmpleado, nombre, contrasena, puesto, horasTrabajadas, pagoXHora, fechaIngreso);
+		super(nombre, contrasena, idEmpleado, puesto, horasTrabajadas, pagoXHora, fechaIngreso);
 		this.ventasRealizadas = ventasRealizadas;
 		this.comisionPorVenta = comisionPorVenta;
 	}
