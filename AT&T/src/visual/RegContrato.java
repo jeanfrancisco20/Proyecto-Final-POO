@@ -2,36 +2,38 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.border.TitledBorder;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import logico.Cliente;
+import logico.Comercial;
 import logico.Contrato;
 import logico.Empleado;
-import logico.Cliente;
 import logico.Plan;
-import logico.Comercial;
 import logico.Sistema;
-
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
-import javax.swing.DefaultComboBoxModel;
 
 public class RegContrato extends JDialog {
 
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtIDcontrato;
 	private JTextField txtFecha;
 	private JTextField txtCargoMensual;
-	private JComboBox cbxPlanes;
-	private JComboBox cbxComerciales;
-	
+	private JComboBox<Object> cbxPlanes;
+	private JComboBox<Object> cbxComerciales;
+
 	private Contrato contratoAEditar = null;
 	private boolean esEdicion = false;
 	private JButton crearBtn;
@@ -41,7 +43,7 @@ public class RegContrato extends JDialog {
 	private JTextField txtTelCliente;
 	private Cliente clienteActual = null;
 	private JTextField txtContrasena;
-	
+
 	public static void main(String[] args) {
 		try {
 			RegContrato dialog = new RegContrato(null);
@@ -63,120 +65,123 @@ public class RegContrato extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("Identificador factura:");
+
+		JLabel lblNewLabel = new JLabel("Identificador contrato:");
 		lblNewLabel.setBounds(224, 217, 156, 14);
 		contentPanel.add(lblNewLabel);
-		
+
 		txtIDcontrato = new JTextField();
 		txtIDcontrato.setBounds(224, 232, 200, 22);
 		contentPanel.add(txtIDcontrato);
 		txtIDcontrato.setColumns(10);
-		
+
 		cbxPlanes = new JComboBox<>();
 		cbxPlanes.setBounds(12, 180, 200, 22);
 		contentPanel.add(cbxPlanes);
-		
+
 		JLabel lblPlanes = new JLabel("Planes:");
 		lblPlanes.setBounds(12, 163, 46, 14);
 		contentPanel.add(lblPlanes);
-		
+
 		cbxComerciales = new JComboBox<>();
 		cbxComerciales.setBounds(12, 232, 200, 22);
 		contentPanel.add(cbxComerciales);
-		
+
 		JLabel lblComerciales = new JLabel("Comerciales:");
 		lblComerciales.setBounds(12, 215, 80, 14);
 		contentPanel.add(lblComerciales);
-		
+
 		txtFecha = new JTextField();
 		txtFecha.setColumns(10);
 		txtFecha.setBounds(224, 182, 200, 22);
 		contentPanel.add(txtFecha);
-		
+
 		JLabel lblFechaDeInicio = new JLabel("Fecha de inicio:");
 		lblFechaDeInicio.setBounds(224, 167, 100, 14);
 		contentPanel.add(lblFechaDeInicio);
-		
+
 		txtCargoMensual = new JTextField();
 		txtCargoMensual.setColumns(10);
 		txtCargoMensual.setBounds(12, 282, 200, 22);
 		contentPanel.add(txtCargoMensual);
-		
+
 		JLabel lblCargoMensual = new JLabel("Cargo mensual:");
 		lblCargoMensual.setBounds(12, 267, 100, 14);
 		contentPanel.add(lblCargoMensual);
-		
+
 		JLabel lblNewLabel_2 = new JLabel("Identificador cliente:");
 		lblNewLabel_2.setBounds(12, 13, 145, 16);
 		contentPanel.add(lblNewLabel_2);
-		
+
 		txtIdcliente = new JTextField();
 		txtIdcliente.setBounds(12, 32, 200, 22);
 		contentPanel.add(txtIdcliente);
 		txtIdcliente.setColumns(10);
-		
+
 		JButton btnNewButton = new JButton("Buscar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String id = txtIdcliente.getText().trim();
-				if(id.isEmpty()) {
+				if (id.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Por favor ingrese id del cliente", "Advertencia", JOptionPane.WARNING_MESSAGE);
 					return;
 				}
 				Cliente cli = Sistema.getInstance().buscarClientePorId(id);
-				if(cli != null) {
+				if (cli != null) {
 					clienteActual = cli;
 					txtNomCliente.setText(cli.getNombre());
 					txtDireCliente.setText(cli.getDireccion());
 					txtTelCliente.setText(cli.getTelefono());
-				}else {
+					txtContrasena.setText(cli.getContrasena() != null ? cli.getContrasena() : "");
+				} else {
 					clienteActual = null;
 					txtNomCliente.setText("");
 					txtDireCliente.setText("");
 					txtTelCliente.setText("");
+					txtContrasena.setText("");
+					JOptionPane.showMessageDialog(null, "Cliente no encontrado. Complete los campos para registrarlo.", "Información", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});
 		btnNewButton.setBounds(222, 31, 97, 25);
 		contentPanel.add(btnNewButton);
-		
+
 		JLabel lblNombreCliente = new JLabel("Nombre cliente:");
 		lblNombreCliente.setBounds(12, 59, 145, 16);
 		contentPanel.add(lblNombreCliente);
-		
+
 		txtNomCliente = new JTextField();
 		txtNomCliente.setColumns(10);
 		txtNomCliente.setBounds(12, 78, 200, 22);
 		contentPanel.add(txtNomCliente);
-		
+
 		JLabel lblDireccinCliente = new JLabel("Direcci\u00F3n cliente:");
 		lblDireccinCliente.setBounds(222, 59, 145, 16);
 		contentPanel.add(lblDireccinCliente);
-		
+
 		txtDireCliente = new JTextField();
 		txtDireCliente.setColumns(10);
 		txtDireCliente.setBounds(222, 78, 200, 22);
 		contentPanel.add(txtDireCliente);
-		
+
 		JLabel lblTlefonoCliente = new JLabel("T\u00E9lefono cliente:");
 		lblTlefonoCliente.setBounds(12, 113, 145, 16);
 		contentPanel.add(lblTlefonoCliente);
-		
+
 		txtTelCliente = new JTextField();
 		txtTelCliente.setColumns(10);
 		txtTelCliente.setBounds(12, 132, 200, 22);
 		contentPanel.add(txtTelCliente);
-		
+
 		txtContrasena = new JTextField();
 		txtContrasena.setColumns(10);
 		txtContrasena.setBounds(224, 132, 200, 22);
 		contentPanel.add(txtContrasena);
-		
+
 		JLabel lblContraseaCliente = new JLabel("Contrase\u00F1a cliente:");
 		lblContraseaCliente.setBounds(224, 117, 123, 14);
 		contentPanel.add(lblContraseaCliente);
-		
+
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -217,11 +222,13 @@ public class RegContrato extends JDialog {
 	private void cargarCombos() {
 		cbxComerciales.removeAllItems();
 		cbxPlanes.removeAllItems();
-		cbxPlanes.addItem("<<Seleccione un plan>>");;
+
+		cbxPlanes.addItem("<<Seleccione un plan>>");
 		for (Plan plan : Sistema.getInstance().getMisPlanes()) {
 			cbxPlanes.addItem(plan);
 		}
-		cbxComerciales.addItem("<<Seleccione un comercial>>");;
+
+		cbxComerciales.addItem("<<Seleccione un comercial>>");
 		for (Empleado emp : Sistema.getInstance().getMisEmpleados()) {
 			if (emp instanceof Comercial) {
 				cbxComerciales.addItem((Comercial) emp);
@@ -232,11 +239,27 @@ public class RegContrato extends JDialog {
 	private void cargarDatosEdicion() {
 		txtIDcontrato.setText(contratoAEditar.getIdContrato());
 		txtIDcontrato.setEditable(false);
-		
+
+		clienteActual = contratoAEditar.getCliente();
+		if (clienteActual != null) {
+			txtIdcliente.setText(clienteActual.getIdCliente());
+			txtIdcliente.setEditable(false);
+			txtNomCliente.setText(clienteActual.getNombre());
+			txtDireCliente.setText(clienteActual.getDireccion());
+			txtTelCliente.setText(clienteActual.getTelefono());
+			txtContrasena.setText(clienteActual.getContrasena() != null ? clienteActual.getContrasena() : "");
+		}
+
 		cbxPlanes.setSelectedItem(contratoAEditar.getPlan());
 		cbxComerciales.setSelectedItem(contratoAEditar.getComercialAsignado());
-		
-		txtFecha.setText(contratoAEditar.getFechaInicio() != null ? contratoAEditar.getFechaInicio().toString() : "");
+
+		if (contratoAEditar.getFechaInicio() != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			txtFecha.setText(sdf.format(contratoAEditar.getFechaInicio()));
+		} else {
+			txtFecha.setText("");
+		}
+
 		txtCargoMensual.setText(String.valueOf(contratoAEditar.getCargoFijoMensual()));
 	}
 
@@ -247,49 +270,75 @@ public class RegContrato extends JDialog {
 		String contrasenaCli = txtContrasena.getText().trim();
 		String direCli = txtDireCliente.getText().trim();
 		String telCli = txtTelCliente.getText().trim();
-		Plan planSel = (Plan) cbxPlanes.getSelectedItem();
-		Comercial comercialSel = (Comercial) cbxComerciales.getSelectedItem();
-		
-		
-		if (idCliente.isEmpty() || nombreCli.isEmpty() || direCli.isEmpty() || telCli.isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Complete todos los datos del cliente.", "Error", JOptionPane.ERROR_MESSAGE);
+		String fechaStr = txtFecha.getText().trim();
+
+		if (idCliente.isEmpty() || nombreCli.isEmpty() || direCli.isEmpty() || telCli.isEmpty() || fechaStr.isEmpty()) {
+			JOptionPane.showMessageDialog(this, "Complete todos los datos del cliente y la fecha de inicio.", "Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		
+
+		if (clienteActual == null && contrasenaCli.isEmpty()) {
+			JOptionPane.showMessageDialog(this, "Ingrese una contraseña para el nuevo cliente.", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
 		if (cbxPlanes.getSelectedIndex() <= 0 || cbxComerciales.getSelectedIndex() <= 0) {
-			JOptionPane.showMessageDialog(null, "Seleccione un plan y un comercial válidos.", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Seleccione un plan y un comercial válidos.", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		Plan planSel = (Plan) cbxPlanes.getSelectedItem();
+		Comercial comercialSel = (Comercial) cbxComerciales.getSelectedItem();
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		sdf.setLenient(false);
+		Date fechaInicio;
+		try {
+			fechaInicio = sdf.parse(fechaStr);
+		} catch (ParseException ex) {
+			JOptionPane.showMessageDialog(this, "Formato de fecha inválido. Use dd/MM/yyyy.", "Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
 		float cargoMensual = 0.0f;
-		try {
-			cargoMensual = Float.parseFloat(txtCargoMensual.getText().trim());
-		} catch (NumberFormatException e) {
-			cargoMensual = planSel.getPrecioBase(); 
+		String cargoStr = txtCargoMensual.getText().trim();
+		if (cargoStr.isEmpty()) {
+			cargoMensual = planSel.getPrecioBase();
+		} else {
+			try {
+				cargoMensual = Float.parseFloat(cargoStr);
+			} catch (NumberFormatException ex) {
+				JOptionPane.showMessageDialog(this, "El cargo mensual debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 		}
 
 		if (clienteActual == null) {
-			clienteActual = new Cliente(idCliente, nombreCli, contrasenaCli, telCli, direCli, true); 
-			Sistema.getInstance().getMisClientes().add(clienteActual); 
+			clienteActual = new Cliente(idCliente, nombreCli, contrasenaCli, telCli, direCli, true);
+			Sistema.getInstance().registrarCliente(clienteActual);
 		} else {
 			clienteActual.setNombre(nombreCli);
 			clienteActual.setDireccion(direCli);
 			clienteActual.setTelefono(telCli);
+			if (!contrasenaCli.isEmpty()) {
+				clienteActual.setContrasena(contrasenaCli);
+			}
 		}
-		
+
 		if (esEdicion) {
 			contratoAEditar.setPlan(planSel);
 			contratoAEditar.setComercialAsignado(comercialSel);
+			contratoAEditar.setFechaInicio(fechaInicio);
 			contratoAEditar.setCargoFijoMensual(cargoMensual);
-			
+
 			JOptionPane.showMessageDialog(this, "¡Contrato modificado con éxito!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 		} else {
-			Contrato nuevoContrato = new Contrato(idContrato, clienteActual, planSel, comercialSel, null, true, cargoMensual);
+			Contrato nuevoContrato = new Contrato(idContrato, clienteActual, planSel, comercialSel, fechaInicio, true, cargoMensual);
 			Sistema.getInstance().registrarContrato(nuevoContrato);
-			
+
 			JOptionPane.showMessageDialog(this, "¡Contrato registrado con éxito!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 		}
-		
+
 		dispose();
 	}
 
