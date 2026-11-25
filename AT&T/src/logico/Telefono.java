@@ -4,6 +4,10 @@ import java.sql.Date;
 
 public class Telefono extends Servicio {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String numeroTelefono;
 	private String tipoLinea;
 	private int minutosIncluidos;

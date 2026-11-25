@@ -4,11 +4,12 @@ import java.util.Date;
 
 public class Administrativo extends Empleado {
 
+	private static final long serialVersionUID = 1L;
 	private float bonoAnual;
-	
-	public Administrativo(String idEmpleado, String nombre, String puesto, int horasTrabajadas, float pagoXHora,
-			float bonoAnual, Date fechaIngreso) {
-		super(idEmpleado, nombre, puesto, horasTrabajadas, pagoXHora, fechaIngreso);
+
+	public Administrativo(String nombre, String contrasena, String idEmpleado, String puesto,
+			int horasTrabajadas, float pagoXHora, float bonoAnual, Date fechaIngreso) {
+		super(nombre, contrasena, idEmpleado, puesto, horasTrabajadas, pagoXHora, fechaIngreso);
 		this.bonoAnual = bonoAnual;
 	}
 
@@ -22,8 +23,6 @@ public class Administrativo extends Empleado {
 
 	@Override
 	public float calcularSalario() {
-		float pago= (horasTrabajadas*pagoXHora)+bonoAnual;
-		return pago;
+		return (horasTrabajadas * pagoXHora) + bonoAnual;
 	}
-
 }

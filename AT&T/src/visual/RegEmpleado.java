@@ -4,9 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -30,6 +30,7 @@ public class RegEmpleado extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtIDEmpleado;
 	private JTextField txtNombre;
+	private JTextField txtContrasena;
 	private JTextField txtPuesto;
 	private JTextField txtPago;
 	private JTextField txtFecha;
@@ -37,8 +38,9 @@ public class RegEmpleado extends JDialog {
 	private Empleado e = null;
 	private JTextField txtBonoAnual;
 	private JTextField txtComisiones;
-	private JComboBox cbxTipo;
+	private JComboBox<String> cbxTipo;
 	private JSpinner spinner;
+
 	/**
 	 * Launch the application.
 	 */
@@ -47,8 +49,8 @@ public class RegEmpleado extends JDialog {
 			RegEmpleado dialog = new RegEmpleado(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 
@@ -56,19 +58,20 @@ public class RegEmpleado extends JDialog {
 	 * Create the dialog.
 	 */
 	public RegEmpleado(Empleado aux) {
-		if(aux != null) {
+		if (aux != null) {
 			e = aux;
 			setTitle("Modificar Empleado");
-			cargarEdicion();
-		}else {
+		} else {
 			setTitle("Crear Nuevo Empleado");
 		}
-		setBounds(100, 100, 450, 404);
+
+		setBounds(100, 100, 450, 441);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
+
 		{
 			JLabel lblNewLabel = new JLabel("Identificador:");
 			lblNewLabel.setBounds(12, 13, 141, 16);
@@ -105,15 +108,15 @@ public class RegEmpleado extends JDialog {
 			contentPanel.add(lblPuesto);
 		}
 		{
-			JLabel lblPagoPorHora = new JLabel("Pago por hora:");
-			lblPagoPorHora.setBounds(12, 123, 141, 16);
-			contentPanel.add(lblPagoPorHora);
+			JLabel lblContraseaEmpleado = new JLabel("Contrase\u00F1a empleado:");
+			lblContraseaEmpleado.setBounds(12, 121, 141, 16);
+			contentPanel.add(lblContraseaEmpleado);
 		}
 		{
-			txtPago = new JTextField();
-			txtPago.setColumns(10);
-			txtPago.setBounds(12, 143, 200, 22);
-			contentPanel.add(txtPago);
+			txtContrasena = new JTextField();
+			txtContrasena.setColumns(10);
+			txtContrasena.setBounds(12, 141, 200, 22);
+			contentPanel.add(txtContrasena);
 		}
 		{
 			JLabel lblFechaDeIngreso = new JLabel("Fecha de ingreso:");
@@ -126,21 +129,23 @@ public class RegEmpleado extends JDialog {
 			txtFecha.setBounds(220, 143, 200, 22);
 			contentPanel.add(txtFecha);
 		}
-		
-		spinner = new JSpinner();
-		spinner.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
-		spinner.setBounds(12, 195, 200, 22);
-		contentPanel.add(spinner);
-		
-		JLabel lblHorasTrabajadas = new JLabel("Horas trabajadas:");
-		lblHorasTrabajadas.setBounds(12, 176, 141, 16);
-		contentPanel.add(lblHorasTrabajadas);
-		
+		{
+			JLabel lblPagoPorHora = new JLabel("Pago por hora:");
+			lblPagoPorHora.setBounds(12, 176, 141, 16);
+			contentPanel.add(lblPagoPorHora);
+		}
+		{
+			txtPago = new JTextField();
+			txtPago.setColumns(10);
+			txtPago.setBounds(12, 196, 200, 22);
+			contentPanel.add(txtPago);
+		}
+
 		JLabel lblNewLabel_1 = new JLabel("Tipo:");
 		lblNewLabel_1.setBounds(220, 176, 56, 16);
 		contentPanel.add(lblNewLabel_1);
-		
-		cbxTipo = new JComboBox();
+
+		cbxTipo = new JComboBox<>();
 		cbxTipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String sel = cbxTipo.getSelectedItem().toString();
@@ -149,49 +154,63 @@ public class RegEmpleado extends JDialog {
 
 				txtBonoAnual.setEnabled(esAdmin);
 				txtBonoAnual.setEditable(esAdmin);
-				if (!esAdmin) txtBonoAnual.setText("");
+				if (!esAdmin) {
+					txtBonoAnual.setText("");
+				}
 
 				txtComisiones.setEnabled(esComercial);
 				txtComisiones.setEditable(esComercial);
 				spnVentas.setEnabled(esComercial);
-				if (!esComercial) txtComisiones.setText("");
+				if (!esComercial) {
+					txtComisiones.setText("");
+				}
 			}
 		});
-		cbxTipo.setModel(new DefaultComboBoxModel(new String[] {"<<Seleccione tipo>>", "Administrador", "Comercial"}));
+		cbxTipo.setModel(new DefaultComboBoxModel<>(new String[] { "<<Seleccione tipo>>", "Administrador", "Comercial" }));
 		cbxTipo.setBounds(220, 195, 200, 22);
 		contentPanel.add(cbxTipo);
-		
-		txtBonoAnual = new JTextField();
-		txtBonoAnual.setEditable(false);
-		txtBonoAnual.setEnabled(false);
-		txtBonoAnual.setColumns(10);
-		txtBonoAnual.setBounds(12, 247, 200, 22);
-		contentPanel.add(txtBonoAnual);
-		
-		JLabel lblBonoAnual = new JLabel("Bono anual:");
-		lblBonoAnual.setBounds(12, 227, 141, 16);
-		contentPanel.add(lblBonoAnual);
-		
+
+		spinner = new JSpinner();
+		spinner.setModel(new SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+		spinner.setBounds(12, 248, 200, 22);
+		contentPanel.add(spinner);
+
+		JLabel lblHorasTrabajadas = new JLabel("Horas trabajadas:");
+		lblHorasTrabajadas.setBounds(12, 229, 141, 16);
+		contentPanel.add(lblHorasTrabajadas);
+
 		txtComisiones = new JTextField();
 		txtComisiones.setEditable(false);
 		txtComisiones.setEnabled(false);
 		txtComisiones.setColumns(10);
 		txtComisiones.setBounds(220, 247, 200, 22);
 		contentPanel.add(txtComisiones);
-		
+
 		JLabel lblComisionesPorVenta = new JLabel("Comisiones por venta:");
 		lblComisionesPorVenta.setBounds(220, 227, 141, 16);
 		contentPanel.add(lblComisionesPorVenta);
-		
+
+		txtBonoAnual = new JTextField();
+		txtBonoAnual.setEditable(false);
+		txtBonoAnual.setEnabled(false);
+		txtBonoAnual.setColumns(10);
+		txtBonoAnual.setBounds(12, 294, 200, 22);
+		contentPanel.add(txtBonoAnual);
+
+		JLabel lblBonoAnual = new JLabel("Bono anual:");
+		lblBonoAnual.setBounds(12, 274, 141, 16);
+		contentPanel.add(lblBonoAnual);
+
 		spnVentas = new JSpinner();
 		spnVentas.setEnabled(false);
-		spnVentas.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
+		spnVentas.setModel(new SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
 		spnVentas.setBounds(220, 294, 200, 22);
 		contentPanel.add(spnVentas);
-		
+
 		JLabel lblVentasRealizadas = new JLabel("Ventas realizadas:");
 		lblVentasRealizadas.setBounds(220, 275, 141, 16);
 		contentPanel.add(lblVentasRealizadas);
+
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -199,82 +218,89 @@ public class RegEmpleado extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("Crear");
-				if(e != null) {
+				if (e != null) {
 					okButton.setText("Modificar");
 				}
 				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {						
+					public void actionPerformed(ActionEvent arg0) {
 						String n = txtNombre.getText().trim();
+						String pass = txtContrasena.getText().trim();
 						String p = txtPuesto.getText().trim();
 						String pp = txtPago.getText().trim();
-						float pagoHora = 0.0f;
 						String f = txtFecha.getText().trim();
-						Date fechaIngreso = null;
 						int h = (int) spinner.getValue();
 						String tipo = cbxTipo.getSelectedItem().toString();
-								
-						
 
-						if(n.isEmpty() || p.isEmpty() || pp.isEmpty() || f.isEmpty()) {
+						if (n.isEmpty() || p.isEmpty() || pp.isEmpty() || f.isEmpty()) {
 							JOptionPane.showMessageDialog(null, "Por favor complete los datos del empleado", "Error", JOptionPane.ERROR_MESSAGE);
 							return;
 						}
-						
+
+						if (e == null && pass.isEmpty()) {
+							JOptionPane.showMessageDialog(null, "Por favor ingrese una contraseña para el empleado", "Error", JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+
 						if (cbxTipo.getSelectedIndex() <= 0) {
 							JOptionPane.showMessageDialog(null, "Debe seleccionar un tipo", "Error", JOptionPane.ERROR_MESSAGE);
 							return;
 						}
-						
+
 						SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 						sdf.setLenient(false);
-						
+						Date fechaIngreso = null;
 						try {
-						    fechaIngreso = sdf.parse(f);
+							fechaIngreso = sdf.parse(f);
 						} catch (ParseException ex) {
-						    JOptionPane.showMessageDialog(null, "Formato de fecha inválido. Use dd/MM/yyyy", "Error", JOptionPane.ERROR_MESSAGE);
-						    return;
+							JOptionPane.showMessageDialog(null, "Formato de fecha inválido. Use dd/MM/yyyy", "Error", JOptionPane.ERROR_MESSAGE);
+							return;
 						}
-						
+
+						float pagoHora = 0.0f;
 						try {
 							pagoHora = Float.parseFloat(pp);
 						} catch (NumberFormatException ex) {
 							JOptionPane.showMessageDialog(null, "El pago por hora debe ser un número válido", "Error", JOptionPane.ERROR_MESSAGE);
 							return;
 						}
-						
+
 						float comision = 0.0f;
 						float bono = 0.0f;
-						
-						if("Administrador".equalsIgnoreCase(tipo)) {
+
+						if ("Administrador".equalsIgnoreCase(tipo)) {
 							try {
 								bono = Float.parseFloat(txtBonoAnual.getText().trim());
 							} catch (NumberFormatException ex) {
 								JOptionPane.showMessageDialog(null, "El bono debe ser un número válido", "Error", JOptionPane.ERROR_MESSAGE);
-							    return;
+								return;
 							}
-						}else if("Comercial".equalsIgnoreCase(tipo)) {
+						} else if ("Comercial".equalsIgnoreCase(tipo)) {
 							try {
 								comision = Float.parseFloat(txtComisiones.getText().trim());
 							} catch (NumberFormatException ex) {
 								JOptionPane.showMessageDialog(null, "La comisión debe ser un número válido", "Error", JOptionPane.ERROR_MESSAGE);
-							    return;
+								return;
 							}
 						}
-						
-						if(e == null) {							
+
+						if (e == null) {
 							Empleado empleado = null;
-							if("Administrador".equalsIgnoreCase(tipo)) {
-								empleado = new Administrativo(txtIDEmpleado.getText().trim(), n, p, h, pagoHora, bono, fechaIngreso);
-							}else if("Comercial".equalsIgnoreCase(tipo)) {
-								empleado = new Comercial(txtIDEmpleado.getText().trim(), n, p, h, pagoHora, fechaIngreso,(int)spnVentas.getValue(), comision);
+							if ("Administrador".equalsIgnoreCase(tipo)) {
+								empleado = new Administrativo(txtIDEmpleado.getText().trim(), n, pass, p, h, pagoHora, bono, fechaIngreso);
+							} else if ("Comercial".equalsIgnoreCase(tipo)) {
+								empleado = new Comercial(txtIDEmpleado.getText().trim(), n, pass, p, h, pagoHora, fechaIngreso, (int) spnVentas.getValue(), comision);
 							}
-							
+
 							if (empleado != null) {
 								Sistema.getInstance().registrarEmpleado(empleado);
 								JOptionPane.showMessageDialog(null, "Empleado registrado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+								dispose();
 							}
-						}else {
+						} else {
 							e.setNombre(n);
+							if (!pass.isEmpty()) {
+								e.setContrasena(pass);
+							}
 							e.setPuesto(p);
 							e.setHorasTrabajadas(h);
 							e.setPagoXHora(pagoHora);
@@ -288,7 +314,8 @@ public class RegEmpleado extends JDialog {
 							}
 
 							JOptionPane.showMessageDialog(null, "Empleado modificado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-						}			
+							dispose();
+						}
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -306,16 +333,22 @@ public class RegEmpleado extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+
+		if (e != null) {
+			cargarEdicion();
+		}
 	}
+
 	private String generarIdEmpleado() {
 		int num = Sistema.getInstance().getMisEmpleados().size() + 1;
 		return "0000" + num;
 	}
-	
+
 	private void cargarEdicion() {
 		txtIDEmpleado.setText(e.getIdEmpleado());
 		txtIDEmpleado.setEditable(false);
 		txtNombre.setText(e.getNombre());
+		txtContrasena.setText(e.getContrasena());
 		txtPuesto.setText(e.getPuesto());
 		txtPago.setText(String.valueOf(e.getPagoXHora()));
 		spinner.setValue(e.getHorasTrabajadas());

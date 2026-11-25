@@ -1,19 +1,21 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public abstract class Empleado {
+public abstract class Empleado extends Persona implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+
 	protected String idEmpleado;
-	protected String nombre;
 	protected String puesto;
 	protected int horasTrabajadas;
 	protected float pagoXHora;
 	protected Date fechaIngreso;
 	
-	public Empleado(String idEmpleado, String nombre, String puesto, int horasTrabajadas, float pagoXHora, Date fechaIngreso) {
-		super();
+	public Empleado(String nombre, String contrasena, String idEmpleado, String puesto, int horasTrabajadas, float pagoXHora, Date fechaIngreso) {
+		super(nombre, contrasena);
 		this.idEmpleado = idEmpleado;
-		this.nombre = nombre;
 		this.puesto = puesto;
 		this.horasTrabajadas = horasTrabajadas;
 		this.pagoXHora = pagoXHora;
