@@ -24,7 +24,6 @@ import logico.Empleado;
 import logico.Plan;
 import logico.Sistema;
 
-//arreglado
 public class RegContrato extends JDialog {
 
 	private static final long serialVersionUID = 1L;
@@ -77,6 +76,18 @@ public class RegContrato extends JDialog {
 		txtIDcontrato.setColumns(10);
 
 		cbxPlanes = new JComboBox<>();
+		cbxPlanes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (cbxPlanes.getSelectedIndex() > 0) {
+					Plan planSel = obtenerPlanSeleccionado();
+					if (planSel != null) {
+						txtCargoMensual.setText(String.valueOf(planSel.getPrecioBase()));
+					}
+				} else if (!esEdicion) {
+					txtCargoMensual.setText("");
+				}
+			}
+		});
 		cbxPlanes.setBounds(12, 180, 200, 22);
 		contentPanel.add(cbxPlanes);
 
@@ -226,15 +237,47 @@ public class RegContrato extends JDialog {
 
 		cbxPlanes.addItem("<<Seleccione un plan>>");
 		for (Plan plan : Sistema.getInstance().getMisPlanes()) {
-			cbxPlanes.addItem(plan);
+			cbxPlanes.addItem(plan.getNombre());
 		}
 
 		cbxComerciales.addItem("<<Seleccione un comercial>>");
 		for (Empleado emp : Sistema.getInstance().getMisEmpleados()) {
 			if (emp instanceof Comercial) {
-				cbxComerciales.addItem((Comercial) emp);
+				Comercial com = (Comercial) emp;
+				cbxComerciales.addItem(com.getIdEmpleado() + " - " + com.getNombre());
 			}
 		}
+	}
+
+	private Plan obtenerPlanSeleccionado() {
+		if (cbxPlanes.getSelectedIndex() <= 0 || cbxPlanes.getSelectedItem() == null) {
+			return null;
+		}
+		String nombrePlan = cbxPlanes.getSelectedItem().toString();
+		for (Plan plan : Sistema.getInstance().getMisPlanes()) {
+			if (nombrePlan.equals(plan.getNombre())) {
+				return plan;
+			}
+		}
+		return null;
+	}
+
+	private Comercial obtenerComercialSeleccionado() {
+		if (cbxComerciales.getSelectedIndex() <= 0 || cbxComerciales.getSelectedItem() == null) {
+			return null;
+		}
+		String item = cbxComerciales.getSelectedItem().toString();
+		String idCom = item.split(" - ", 2)[0].trim();
+
+		for (Empleado emp : Sistema.getInstance().getMisEmpleados()) {
+			if (emp instanceof Comercial) {
+				Comercial com = (Comercial) emp;
+				if (idCom.equals(com.getIdEmpleado())) {
+					return com;
+				}
+			}
+		}
+		return null;
 	}
 
 	private void cargarDatosEdicion() {
@@ -251,8 +294,18 @@ public class RegContrato extends JDialog {
 			txtContrasena.setText(clienteActual.getContrasena() != null ? clienteActual.getContrasena() : "");
 		}
 
-		cbxPlanes.setSelectedItem(contratoAEditar.getPlan());
-		cbxComerciales.setSelectedItem(contratoAEditar.getComercialAsignado());
+		if (contratoAEditar.getPlan() != null) {
+			cbxPlanes.setSelectedItem(contratoAEditar.getPlan().getNombre());
+		} else {
+			cbxPlanes.setSelectedIndex(0);
+		}
+
+		if (contratoAEditar.getComercialAsignado() != null) {
+			Comercial com = contratoAEditar.getComercialAsignado();
+			cbxComerciales.setSelectedItem(com.getIdEmpleado() + " - " + com.getNombre());
+		} else {
+			cbxComerciales.setSelectedIndex(0);
+		}
 
 		if (contratoAEditar.getFechaInicio() != null) {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -283,13 +336,12 @@ public class RegContrato extends JDialog {
 			return;
 		}
 
-		if (cbxPlanes.getSelectedIndex() <= 0 || cbxComerciales.getSelectedIndex() <= 0) {
+		Plan planSel = obtenerPlanSeleccionado();
+		Comercial comercialSel = obtenerComercialSeleccionado();
+		if (planSel == null || comercialSel == null) {
 			JOptionPane.showMessageDialog(this, "Seleccione un plan y un comercial válidos.", "Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-
-		Plan planSel = (Plan) cbxPlanes.getSelectedItem();
-		Comercial comercialSel = (Comercial) cbxComerciales.getSelectedItem();
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		sdf.setLenient(false);
@@ -315,7 +367,7 @@ public class RegContrato extends JDialog {
 		}
 
 		if (clienteActual == null) {
-			clienteActual = new Cliente(idCliente, nombreCli, contrasenaCli, telCli, direCli, true);
+			clienteActual = new Cliente(nombreCli, contrasenaCli, idCliente, telCli, direCli, false);
 			Sistema.getInstance().registrarCliente(clienteActual);
 		} else {
 			clienteActual.setNombre(nombreCli);
