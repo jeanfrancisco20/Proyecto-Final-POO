@@ -4,6 +4,10 @@ import java.sql.Date;
 
 public class Internet extends Servicio {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int velocidadBajada;
 	private int velocidadSubida;
 	private String tipoConexion;

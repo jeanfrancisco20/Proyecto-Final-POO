@@ -7,7 +7,6 @@ import java.util.Date;
 public class Sistema implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-
 	private ArrayList<Empleado> misEmpleados;
 	private ArrayList<Plan> misPlanes;
 	private ArrayList<Servicio> misServicios;
@@ -30,6 +29,12 @@ public class Sistema implements Serializable{
 			sistema= new Sistema();
 		}
 		return sistema;
+	}
+	public static Sistema getSistema() {
+		return sistema;
+	}
+	public static void setSistema(Sistema sistema) {
+		Sistema.sistema= sistema;
 	}
 	public ArrayList<Empleado> getMisEmpleados() {
 		return misEmpleados;
@@ -228,5 +233,29 @@ public class Sistema implements Serializable{
 		if(aux != null && aux.getEstadoContrato() == true) {
 			misContratos.remove(aux);
 		}
+	}
+	
+	public boolean confirmarLogin(String usuario, String contrasena) {
+		if (usuario == null || contrasena == null) {
+			return false;
+		}
+
+		if (misEmpleados != null) {
+			for (Empleado emp : misEmpleados) {
+				if (usuario.equals(emp.getNombre()) && contrasena.equals(emp.getContrasena())) {
+					return true;
+				}
+			}
+		}
+
+		if (misClientes != null) {
+			for (Cliente cli : misClientes) {
+				if (usuario.equals(cli.getNombre()) && contrasena.equals(cli.getContrasena())) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 }

@@ -4,6 +4,10 @@ import java.sql.Date;
 
 public class Cable extends Servicio {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int cantidadCanales;
 	private String tipoPaqueteCable;
 	
