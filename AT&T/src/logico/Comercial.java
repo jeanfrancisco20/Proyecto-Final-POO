@@ -4,6 +4,10 @@ import java.util.Date;
 
 public class Comercial extends Empleado {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int ventasRealizadas;
 	private float comisionPorVenta;
 	
@@ -34,6 +38,11 @@ public class Comercial extends Empleado {
 	public float calcularSalario() {
 		float pago= (horasTrabajadas*pagoXHora)+(ventasRealizadas*comisionPorVenta);
 		return pago;
+	}
+	
+	@Override
+	public String toString() {
+	    return getNombre();
 	}
 
 }

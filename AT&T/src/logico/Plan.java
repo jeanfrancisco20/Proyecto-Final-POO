@@ -72,4 +72,7 @@ public class Plan implements Serializable{
 		this.misServicios = misServicios;
 	}
 	
+	public String toString() {
+	    return getNombre();
+	}
 }
