@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -27,6 +28,8 @@ import logico.Sistema;
 public class RegContrato extends JDialog {
 
 	private static final long serialVersionUID = 1L;
+	private static final float TASA_ITBIS = 0.18f;
+
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtIDcontrato;
 	private JTextField txtFecha;
@@ -81,7 +84,8 @@ public class RegContrato extends JDialog {
 				if (cbxPlanes.getSelectedIndex() > 0) {
 					Plan planSel = obtenerPlanSeleccionado();
 					if (planSel != null) {
-						txtCargoMensual.setText(String.valueOf(planSel.getPrecioBase()));
+						float totalConItbis = calcularCargoConItbis(planSel.getPrecioBase());
+						txtCargoMensual.setText(String.format(Locale.US, "%.2f", totalConItbis));
 					}
 				} else if (!esEdicion) {
 					txtCargoMensual.setText("");
@@ -104,6 +108,7 @@ public class RegContrato extends JDialog {
 		contentPanel.add(lblComerciales);
 
 		txtFecha = new JTextField();
+		txtFecha.setText("dd/mm/yyyy");
 		txtFecha.setColumns(10);
 		txtFecha.setBounds(224, 182, 200, 22);
 		contentPanel.add(txtFecha);
@@ -113,12 +118,13 @@ public class RegContrato extends JDialog {
 		contentPanel.add(lblFechaDeInicio);
 
 		txtCargoMensual = new JTextField();
+		txtCargoMensual.setEditable(false);
 		txtCargoMensual.setColumns(10);
 		txtCargoMensual.setBounds(12, 282, 200, 22);
 		contentPanel.add(txtCargoMensual);
 
-		JLabel lblCargoMensual = new JLabel("Cargo mensual:");
-		lblCargoMensual.setBounds(12, 267, 100, 14);
+		JLabel lblCargoMensual = new JLabel("Cargo mensual (c/ ITBIS):");
+		lblCargoMensual.setBounds(12, 267, 170, 14);
 		contentPanel.add(lblCargoMensual);
 
 		JLabel lblNewLabel_2 = new JLabel("Identificador cliente:");
@@ -231,6 +237,10 @@ public class RegContrato extends JDialog {
 		}
 	}
 
+	private float calcularCargoConItbis(float precioBase) {
+		return precioBase * (1.0f + TASA_ITBIS);
+	}
+
 	private void cargarCombos() {
 		cbxComerciales.removeAllItems();
 		cbxPlanes.removeAllItems();
@@ -311,10 +321,10 @@ public class RegContrato extends JDialog {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			txtFecha.setText(sdf.format(contratoAEditar.getFechaInicio()));
 		} else {
-			txtFecha.setText("");
+			txtFecha.setText("dd/mm/yyyy");
 		}
 
-		txtCargoMensual.setText(String.valueOf(contratoAEditar.getCargoFijoMensual()));
+		txtCargoMensual.setText(String.format(Locale.US, "%.2f", contratoAEditar.getCargoFijoMensual()));
 	}
 
 	private void registrarOModificarContrato() {
@@ -353,18 +363,7 @@ public class RegContrato extends JDialog {
 			return;
 		}
 
-		float cargoMensual = 0.0f;
-		String cargoStr = txtCargoMensual.getText().trim();
-		if (cargoStr.isEmpty()) {
-			cargoMensual = planSel.getPrecioBase();
-		} else {
-			try {
-				cargoMensual = Float.parseFloat(cargoStr);
-			} catch (NumberFormatException ex) {
-				JOptionPane.showMessageDialog(this, "El cargo mensual debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-		}
+		float cargoMensual = calcularCargoConItbis(planSel.getPrecioBase());
 
 		if (clienteActual == null) {
 			clienteActual = new Cliente(nombreCli, contrasenaCli, idCliente, telCli, direCli, false);
@@ -388,6 +387,7 @@ public class RegContrato extends JDialog {
 		} else {
 			Contrato nuevoContrato = new Contrato(idContrato, clienteActual, planSel, comercialSel, fechaInicio, true, cargoMensual);
 			Sistema.getInstance().registrarContrato(nuevoContrato);
+			comercialSel.setVentasRealizadas(comercialSel.getVentasRealizadas() + 1);
 
 			JOptionPane.showMessageDialog(this, "¡Contrato registrado con éxito!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 		}
@@ -397,6 +397,6 @@ public class RegContrato extends JDialog {
 
 	private String generarIdContrato() {
 		int num = Sistema.getInstance().getMisContratos().size() + 1;
-		return "0000" + num;
+		return "CONT-000" + num;
 	}
 }

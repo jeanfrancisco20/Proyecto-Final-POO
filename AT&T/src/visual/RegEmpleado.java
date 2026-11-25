@@ -27,6 +27,7 @@ import logico.Sistema;
 
 public class RegEmpleado extends JDialog {
 
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtIDEmpleado;
 	private JTextField txtNombre;
@@ -34,7 +35,6 @@ public class RegEmpleado extends JDialog {
 	private JTextField txtPuesto;
 	private JTextField txtPago;
 	private JTextField txtFecha;
-	private JSpinner spnVentas;
 	private Empleado e = null;
 	private JTextField txtBonoAnual;
 	private JTextField txtComisiones;
@@ -155,7 +155,6 @@ public class RegEmpleado extends JDialog {
 
 				txtComisiones.setEnabled(esComercial);
 				txtComisiones.setEditable(esComercial);
-				spnVentas.setEnabled(esComercial);
 				if (!esComercial) {
 					txtComisiones.setText("");
 				}
@@ -195,16 +194,6 @@ public class RegEmpleado extends JDialog {
 		JLabel lblBonoAnual = new JLabel("Bono anual:");
 		lblBonoAnual.setBounds(12, 274, 141, 16);
 		contentPanel.add(lblBonoAnual);
-
-		spnVentas = new JSpinner();
-		spnVentas.setEnabled(false);
-		spnVentas.setModel(new SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
-		spnVentas.setBounds(220, 294, 200, 22);
-		contentPanel.add(spnVentas);
-
-		JLabel lblVentasRealizadas = new JLabel("Ventas realizadas:");
-		lblVentasRealizadas.setBounds(220, 275, 141, 16);
-		contentPanel.add(lblVentasRealizadas);
 
 		{
 			JPanel buttonPane = new JPanel();
@@ -283,7 +272,7 @@ public class RegEmpleado extends JDialog {
 							if ("Administrador".equalsIgnoreCase(tipo)) {
 								empleado = new Administrativo(txtIDEmpleado.getText().trim(), n, pass, p, h, pagoHora, bono, fechaIngreso);
 							} else if ("Comercial".equalsIgnoreCase(tipo)) {
-								empleado = new Comercial(txtIDEmpleado.getText().trim(), n, pass, p, h, pagoHora, fechaIngreso, (int) spnVentas.getValue(), comision);
+								empleado = new Comercial(txtIDEmpleado.getText().trim(), n, pass, p, h, pagoHora, fechaIngreso, 0, comision);
 							}
 
 							if (empleado != null) {
@@ -304,7 +293,6 @@ public class RegEmpleado extends JDialog {
 							if (e instanceof Administrativo && "Administrador".equalsIgnoreCase(tipo)) {
 								((Administrativo) e).setBonoAnual(bono);
 							} else if (e instanceof Comercial && "Comercial".equalsIgnoreCase(tipo)) {
-								((Comercial) e).setVentasRealizadas((int) spnVentas.getValue());
 								((Comercial) e).setComisionPorVenta(comision);
 							}
 
@@ -348,12 +336,11 @@ public class RegEmpleado extends JDialog {
 		spinner.setValue(1);
 		txtBonoAnual.setText("");
 		txtComisiones.setText("");
-		spnVentas.setValue(1);
 	}
 
 	private String generarIdEmpleado() {
 		int num = Sistema.getInstance().getMisEmpleados().size() + 1;
-		return "0000" + num;
+		return "EMP-000" + num;
 	}
 
 	private void cargarEdicion() {
@@ -376,7 +363,6 @@ public class RegEmpleado extends JDialog {
 		} else if (e instanceof Comercial) {
 			cbxTipo.setSelectedItem("Comercial");
 			txtComisiones.setText(String.valueOf(((Comercial) e).getComisionPorVenta()));
-			spnVentas.setValue(((Comercial) e).getVentasRealizadas());
 		}
 		cbxTipo.setEnabled(false);
 	}
