@@ -35,5 +35,10 @@ public class Comercial extends Empleado {
 		float pago= (horasTrabajadas*pagoXHora)+(ventasRealizadas*comisionPorVenta);
 		return pago;
 	}
+	
+	@Override
+	public String toString() {
+	    return getNombre();
+	}
 
 }

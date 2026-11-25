@@ -21,6 +21,8 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.border.TitledBorder;
 
+import logico.Sistema;
+
 public class RegServicio extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
@@ -259,10 +261,16 @@ public class RegServicio extends JDialog {
 				buttonPane.add(btnCancelar);
 			}
 		}
-
+		txtId.setText(generarIdServicioAutomatico());
+		txtId.setEditable(false);
 		actualizarCampos();
 	}
 
+	private String generarIdServicioAutomatico() {
+		int num = Sistema.getInstance().getMisServicios().size() + 1;
+		return "0000" + num;
+	}
+	
 	private void actualizarCampos() {
 		boolean internet = chckbxInternet.isSelected();
 		boolean telefono = chckbxTelefono.isSelected();
