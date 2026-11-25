@@ -2,36 +2,32 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import logico.Factura;
-import logico.Plan;
 import logico.Sistema;
-
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class ListarFacturas extends JDialog {
 
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JButton pagarBtn;
 	private JButton detalleBtn;
 	private JTable table;
 	private DefaultTableModel modelo;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		try {
 			ListarFacturas dialog = new ListarFacturas();
@@ -42,9 +38,6 @@ public class ListarFacturas extends JDialog {
 		}
 	}
 
-	/**
-	 * Create the dialog.
-	 */
 	public ListarFacturas() {
 		setTitle("Listado de Facturas");
 		setBounds(100, 100, 800, 600);
@@ -61,13 +54,15 @@ public class ListarFacturas extends JDialog {
 				JScrollPane scrollPane = new JScrollPane();
 				panel.add(scrollPane, BorderLayout.CENTER);
 				{
-					modelo= new DefaultTableModel() {
+					modelo = new DefaultTableModel() {
+						private static final long serialVersionUID = 1L;
+
 						@Override
 						public boolean isCellEditable(int row, int column) {
 							return false;
 						}
 					};
-					table = new JTable();
+					table = new JTable(modelo);
 					scrollPane.setViewportView(table);
 				}
 			}
@@ -112,57 +107,57 @@ public class ListarFacturas extends JDialog {
 		configurarSeleccionTabla();
 		cargarFacturas();
 	}
-	
+
 	private void configurarSeleccionTabla() {
-		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {			
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				// TODO Auto-generated method stub
-				if(!e.getValueIsAdjusting()) {
-					boolean seleccionada= table.getSelectedRow() != -1;
+				if (!e.getValueIsAdjusting()) {
+					boolean seleccionada = table.getSelectedRow() != -1;
 					pagarBtn.setEnabled(seleccionada);
 					detalleBtn.setEnabled(seleccionada);
 				}
 			}
 		});
 	}
-	
+
 	private void cargarFacturas() {
-		String[] columna = {"Id", "Nombre", "Estado", "Monto"};
+		String[] columna = { "Id", "Nombre", "Estado", "Monto" };
 		modelo.setDataVector(null, columna);
-		for (Factura f: Sistema.getInstance().getMisFacturas()) {
-			String nombreCliente= f.getCliente().getNombre();
+		for (Factura f : Sistema.getInstance().getMisFacturas()) {
+			String nombreCliente = (f.getCliente() != null) ? f.getCliente().getNombre() : "Sin cliente";
 			String estado = f.isPagada() ? "Pagada" : "La debe";
-			Object[] fila= {f.getIdFactura(), nombreCliente, estado, f.getMontoTotal()};
-		modelo.addRow(fila);
+			Object[] fila = { f.getIdFactura(), nombreCliente, estado, f.getMontoTotal() };
+			modelo.addRow(fila);
 		}
 		pagarBtn.setEnabled(false);
 		detalleBtn.setEnabled(false);
-	}	
-	
+	}
+
 	private void abrirDetalleFactura() {
-		int fila= table.getSelectedRow();
+		int fila = table.getSelectedRow();
 		if (fila == -1) {
 			return;
 		}
-		String idFactura= modelo.getValueAt(fila, 0).toString();
-		Factura factura= Sistema.getInstance().buscarFacturaPorId(idFactura);
-		
+		String idFactura = modelo.getValueAt(fila, 0).toString();
+		Factura factura = Sistema.getInstance().buscarFacturaPorId(idFactura);
+
 		if (factura != null) {
-			DetalleFactura detalleFactura= new DetalleFactura(factura);
+			DetalleFactura detalleFactura = new DetalleFactura(factura);
 			detalleFactura.setModal(true);
 			detalleFactura.setVisible(true);
 		} else {
-			JOptionPane.showMessageDialog(this, "No se encontró la factura seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "No se encontró la factura seleccionada.", "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
+
 	private void pagarFacturaSeleccionada() {
-		int fila= table.getSelectedRow();
+		int fila = table.getSelectedRow();
 		if (fila == -1) {
 			return;
 		}
-		
+
 		String idFactura = modelo.getValueAt(fila, 0).toString();
 		Factura factura = Sistema.getInstance().buscarFacturaPorId(idFactura);
 
@@ -171,12 +166,14 @@ public class ListarFacturas extends JDialog {
 		}
 
 		if (factura.isPagada()) {
-			JOptionPane.showMessageDialog(this, "Esta factura ya está pagada.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Esta factura ya está pagada.", "Aviso",
+					JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
 
 		Sistema.getInstance().registrarPagoFactura(idFactura);
-		JOptionPane.showMessageDialog(this, "¡Factura pagada con éxito, compadre!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(this, "¡Factura pagada con éxito, compadre!", "Éxito",
+				JOptionPane.INFORMATION_MESSAGE);
 		cargarFacturas();
 	}
 }

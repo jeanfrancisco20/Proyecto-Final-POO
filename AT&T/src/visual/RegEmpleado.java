@@ -41,9 +41,6 @@ public class RegEmpleado extends JDialog {
 	private JComboBox<String> cbxTipo;
 	private JSpinner spinner;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		try {
 			RegEmpleado dialog = new RegEmpleado(null);
@@ -54,9 +51,6 @@ public class RegEmpleado extends JDialog {
 		}
 	}
 
-	/**
-	 * Create the dialog.
-	 */
 	public RegEmpleado(Empleado aux) {
 		if (aux != null) {
 			e = aux;
@@ -125,6 +119,7 @@ public class RegEmpleado extends JDialog {
 		}
 		{
 			txtFecha = new JTextField();
+			txtFecha.setText("dd/mm/yyyy");
 			txtFecha.setColumns(10);
 			txtFecha.setBounds(220, 143, 200, 22);
 			contentPanel.add(txtFecha);
@@ -294,7 +289,7 @@ public class RegEmpleado extends JDialog {
 							if (empleado != null) {
 								Sistema.getInstance().registrarEmpleado(empleado);
 								JOptionPane.showMessageDialog(null, "Empleado registrado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-								dispose();
+								limpiarCampos();
 							}
 						} else {
 							e.setNombre(n);
@@ -314,7 +309,7 @@ public class RegEmpleado extends JDialog {
 							}
 
 							JOptionPane.showMessageDialog(null, "Empleado modificado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-							dispose();
+							limpiarCampos();
 						}
 					}
 				});
@@ -337,6 +332,23 @@ public class RegEmpleado extends JDialog {
 		if (e != null) {
 			cargarEdicion();
 		}
+	}
+
+	private void limpiarCampos() {
+		if (e == null) {
+			txtIDEmpleado.setText(generarIdEmpleado());
+			cbxTipo.setEnabled(true);
+			cbxTipo.setSelectedIndex(0);
+		}
+		txtNombre.setText("");
+		txtContrasena.setText("");
+		txtPuesto.setText("");
+		txtPago.setText("");
+		txtFecha.setText("dd/mm/yyyy");
+		spinner.setValue(1);
+		txtBonoAnual.setText("");
+		txtComisiones.setText("");
+		spnVentas.setValue(1);
 	}
 
 	private String generarIdEmpleado() {
