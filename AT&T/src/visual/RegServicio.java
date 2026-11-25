@@ -5,8 +5,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.util.Calendar;
-import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -21,7 +21,10 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.border.TitledBorder;
 
+import logico.Cable;
+import logico.Internet;
 import logico.Sistema;
+import logico.Telefono;
 
 public class RegServicio extends JDialog {
 
@@ -83,7 +86,7 @@ public class RegServicio extends JDialog {
 		panel.add(lblNewLabel_1);
 
 		txtFechaContratacion = new JSpinner();
-		txtFechaContratacion.setModel(new SpinnerDateModel(new Date(), null, null, Calendar.DAY_OF_YEAR));
+		txtFechaContratacion.setModel(new SpinnerDateModel(new java.util.Date(), null, null, Calendar.DAY_OF_YEAR));
 		txtFechaContratacion.setBounds(216, 97, 161, 26);
 		panel.add(txtFechaContratacion);
 
@@ -270,12 +273,19 @@ public class RegServicio extends JDialog {
 		int num = Sistema.getInstance().getMisServicios().size() + 1;
 		return "0000" + num;
 	}
-	
+
+	private String limpiarEtiquetaCombo(String opcion) {
+		int idx = opcion.indexOf(" ->");
+		String limpio = (idx >= 0) ? opcion.substring(0, idx).trim() : opcion.trim();
+		int parenIdx = limpio.indexOf(" (");
+		return (parenIdx >= 0) ? limpio.substring(0, parenIdx).trim() : limpio;
+	}
+
 	private void actualizarCampos() {
 		boolean internet = chckbxInternet.isSelected();
 		boolean telefono = chckbxTelefono.isSelected();
 		boolean cable = chckbxCable.isSelected();
-		
+
 		txtVelocidadBajada.setEnabled(internet);
 		txtVelocidadSubida.setEnabled(internet);
 		cbxTipoConexion.setEnabled(internet);
@@ -317,7 +327,9 @@ public class RegServicio extends JDialog {
 
 		try {
 			String id = txtId.getText().trim();
-			Date fechaContratacion = (Date) txtFechaContratacion.getValue();
+			java.util.Date fechaUtil = (java.util.Date) txtFechaContratacion.getValue();
+			Date fechaSql = new Date(fechaUtil.getTime());
+			boolean estado = true;
 
 			if (chckbxInternet.isSelected()) {
 				if (txtVelocidadBajada.getText().trim().isEmpty()
@@ -328,11 +340,13 @@ public class RegServicio extends JDialog {
 					return;
 				}
 
-				float bajada = Float.parseFloat(txtVelocidadBajada.getText().trim());
-				float subida = Float.parseFloat(txtVelocidadSubida.getText().trim());
+				int bajada = Integer.parseInt(txtVelocidadBajada.getText().trim());
+				int subida = Integer.parseInt(txtVelocidadSubida.getText().trim());
+				String tipoConexion = limpiarEtiquetaCombo(cbxTipoConexion.getSelectedItem().toString());
 				float limiteDatos = Float.parseFloat(txtLimiteDatos.getText().trim());
-				String tipoConexion = cbxTipoConexion.getSelectedItem().toString();
 
+				Internet nuevo = new Internet(id, estado, fechaSql, bajada, subida, tipoConexion, limiteDatos);
+				Sistema.getInstance().getMisServicios().add(nuevo);
 
 			} else if (chckbxTelefono.isSelected()) {
 				if (txtNumeroTelefono.getText().trim().isEmpty()
@@ -343,9 +357,11 @@ public class RegServicio extends JDialog {
 				}
 
 				String numero = txtNumeroTelefono.getText().trim();
+				String tipoLinea = limpiarEtiquetaCombo(cbxTipoLinea.getSelectedItem().toString());
 				int minutos = Integer.parseInt(txtMinutosIncluidos.getText().trim());
-				String tipoLinea = cbxTipoLinea.getSelectedItem().toString();
 
+				Telefono nuevo = new Telefono(id, estado, fechaSql, numero, tipoLinea, minutos);
+				Sistema.getInstance().getMisServicios().add(nuevo);
 
 			} else if (chckbxCable.isSelected()) {
 				if (txtCantCanales.getText().trim().isEmpty()
@@ -355,8 +371,10 @@ public class RegServicio extends JDialog {
 				}
 
 				int cantCanales = Integer.parseInt(txtCantCanales.getText().trim());
-				String paqueteCable = cbxTipoPaqueteCable.getSelectedItem().toString();
+				String paqueteCable = limpiarEtiquetaCombo(cbxTipoPaqueteCable.getSelectedItem().toString());
 
+				Cable nuevo = new Cable(id, estado, fechaSql, cantCanales, paqueteCable);
+				Sistema.getInstance().getMisServicios().add(nuevo);
 			}
 
 			JOptionPane.showMessageDialog(this, "Servicio registrado exitosamente.", "Información", JOptionPane.INFORMATION_MESSAGE);
