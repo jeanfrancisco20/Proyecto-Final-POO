@@ -24,6 +24,7 @@ import logico.Empleado;
 import logico.Plan;
 import logico.Sistema;
 
+//arreglado
 public class RegContrato extends JDialog {
 
 	private static final long serialVersionUID = 1L;
