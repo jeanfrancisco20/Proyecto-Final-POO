@@ -225,7 +225,7 @@ public class Sistema implements Serializable{
 	
 	public void eliminarContrato(String id) {
 		Contrato aux = buscarContratoPorId(id);
-		if(aux != null && aux.getEstadoContrato() == true) {
+		if (aux != null && !aux.getEstadoContrato()) {
 			misContratos.remove(aux);
 		}
 	}
