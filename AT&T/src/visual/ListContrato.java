@@ -89,6 +89,10 @@ public class ListContrato extends JDialog {
 				deletebtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(contrato != null) {
+							if (contrato.getEstadoContrato()) {
+								JOptionPane.showMessageDialog(null, "No se puede eliminar el contrato " + contrato.getIdContrato() + " porque está activo.", "Contrato activo",JOptionPane.WARNING_MESSAGE);
+								return;
+							}
 							int op = JOptionPane.showConfirmDialog(null, "Confirmas eliminar el contrato: "+contrato.getIdContrato(), "Confirmar", JOptionPane.WARNING_MESSAGE);
 							if(op == JOptionPane.YES_OPTION) {
 								Sistema.getInstance().eliminarContrato(contrato.getIdContrato());
