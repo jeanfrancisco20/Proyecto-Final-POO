@@ -49,7 +49,7 @@ public class ListContrato extends JDialog {
 	 */
 	public ListContrato() {
 		setTitle("Listar contratos");
-		setBounds(100, 100, 800, 600);
+		setBounds(100, 100, 990, 600);
 		setLocationRelativeTo(null);
 		
 		getContentPane().setLayout(new BorderLayout());
@@ -60,7 +60,7 @@ public class ListContrato extends JDialog {
 			JScrollPane scrollPane = new JScrollPane();
 			contentPanel.add(scrollPane, BorderLayout.CENTER);
 			{
-				String header[] = {"ID", "Fecha de inicio", "Cargo mensual"};
+				String header[] = {"ID", "Cliente asociado", "Empleado asociado", "Plan asociado", "Estado", "Fecha de inicio", "Cargo mensual"};
 				model = new DefaultTableModel();
 				model.setColumnIdentifiers(header);
 				table = new JTable();
@@ -146,10 +146,19 @@ public class ListContrato extends JDialog {
 		if(vdbtn != null)vdbtn.setEnabled(false);
 		
 		for(Contrato aux : Sistema.getInstance().getMisContratos()) {
+			String clienteStr = (aux.getCliente() != null) ? aux.getCliente().getIdCliente() + " - " + aux.getCliente().getNombre() : "";
+			String empleadoStr = (aux.getComercialAsignado() != null) ? aux.getComercialAsignado().getIdEmpleado() + " - " + aux.getComercialAsignado().getNombre()	: "";
+			String planStr = (aux.getPlan() != null) ? aux.getPlan().getIdPlan() + " - " + aux.getPlan().getNombre() : "";
+			String estadoStr = aux.getEstadoContrato() ? "Activo" : "Inactivo";
+			
 			row = new Object[model.getColumnCount()];
 			row[0] = aux.getIdContrato();
-			row[1] = (aux.getFechaInicio() != null) ? aux.getFechaInicio().toString() : "";
-			row[2] = aux.getCargoFijoMensual();
+			row[1] = clienteStr;
+			row[2] = empleadoStr;
+			row[3] = planStr;
+			row[4] = estadoStr;
+			row[5] = (aux.getFechaInicio() != null) ? aux.getFechaInicio().toString() : "";
+			row[6] = aux.getCargoFijoMensual();
 			model.addRow(row);
 		}
 	}
