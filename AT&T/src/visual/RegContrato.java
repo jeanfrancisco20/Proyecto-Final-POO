@@ -62,19 +62,19 @@ public class RegContrato extends JDialog {
 		this.esEdicion = (this.contratoAEditar != null);
 
 		setTitle(esEdicion ? "Modificar Contrato" : "Crear Nuevo Contrato");
-		setBounds(100, 100, 470, 416);
+		setBounds(100, 100, 470, 563);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Identificador contrato:");
-		lblNewLabel.setBounds(224, 217, 156, 14);
+		JLabel lblNewLabel = new JLabel("ID del Contrato:");
+		lblNewLabel.setBounds(240, 406, 176, 14);
 		contentPanel.add(lblNewLabel);
 
 		txtIDcontrato = new JTextField();
-		txtIDcontrato.setBounds(224, 232, 200, 22);
+		txtIDcontrato.setBounds(240, 424, 200, 33);
 		contentPanel.add(txtIDcontrato);
 		txtIDcontrato.setColumns(10);
 
@@ -92,47 +92,47 @@ public class RegContrato extends JDialog {
 				}
 			}
 		});
-		cbxPlanes.setBounds(12, 180, 200, 22);
+		cbxPlanes.setBounds(12, 293, 200, 33);
 		contentPanel.add(cbxPlanes);
 
 		JLabel lblPlanes = new JLabel("Planes:");
-		lblPlanes.setBounds(12, 163, 46, 14);
+		lblPlanes.setBounds(12, 276, 100, 14);
 		contentPanel.add(lblPlanes);
 
 		cbxComerciales = new JComboBox<>();
-		cbxComerciales.setBounds(12, 232, 200, 22);
+		cbxComerciales.setBounds(240, 293, 200, 33);
 		contentPanel.add(cbxComerciales);
 
 		JLabel lblComerciales = new JLabel("Comerciales:");
-		lblComerciales.setBounds(12, 215, 80, 14);
+		lblComerciales.setBounds(239, 276, 145, 14);
 		contentPanel.add(lblComerciales);
 
 		txtFecha = new JTextField();
 		txtFecha.setText("dd/mm/yyyy");
 		txtFecha.setColumns(10);
-		txtFecha.setBounds(224, 182, 200, 22);
+		txtFecha.setBounds(12, 424, 200, 33);
 		contentPanel.add(txtFecha);
 
-		JLabel lblFechaDeInicio = new JLabel("Fecha de inicio:");
-		lblFechaDeInicio.setBounds(224, 167, 100, 14);
+		JLabel lblFechaDeInicio = new JLabel("Fecha de Inicio:");
+		lblFechaDeInicio.setBounds(12, 406, 156, 14);
 		contentPanel.add(lblFechaDeInicio);
 
 		txtCargoMensual = new JTextField();
 		txtCargoMensual.setEditable(false);
 		txtCargoMensual.setColumns(10);
-		txtCargoMensual.setBounds(12, 282, 200, 22);
+		txtCargoMensual.setBounds(12, 360, 200, 33);
 		contentPanel.add(txtCargoMensual);
 
-		JLabel lblCargoMensual = new JLabel("Cargo mensual (c/ ITBIS):");
-		lblCargoMensual.setBounds(12, 267, 170, 14);
+		JLabel lblCargoMensual = new JLabel("Cargo Mensual (c/ ITBIS):");
+		lblCargoMensual.setBounds(12, 339, 200, 14);
 		contentPanel.add(lblCargoMensual);
 
-		JLabel lblNewLabel_2 = new JLabel("Identificador cliente:");
+		JLabel lblNewLabel_2 = new JLabel("ID del Cliente:");
 		lblNewLabel_2.setBounds(12, 13, 145, 16);
 		contentPanel.add(lblNewLabel_2);
 
 		txtIdcliente = new JTextField();
-		txtIdcliente.setBounds(12, 32, 200, 22);
+		txtIdcliente.setBounds(12, 32, 200, 33);
 		contentPanel.add(txtIdcliente);
 		txtIdcliente.setColumns(10);
 
@@ -161,43 +161,43 @@ public class RegContrato extends JDialog {
 				}
 			}
 		});
-		btnNewButton.setBounds(222, 31, 97, 25);
+		btnNewButton.setBounds(222, 31, 97, 34);
 		contentPanel.add(btnNewButton);
 
-		JLabel lblNombreCliente = new JLabel("Nombre cliente:");
-		lblNombreCliente.setBounds(12, 59, 145, 16);
+		JLabel lblNombreCliente = new JLabel("Nombre del Cliente:");
+		lblNombreCliente.setBounds(12, 78, 145, 16);
 		contentPanel.add(lblNombreCliente);
 
 		txtNomCliente = new JTextField();
 		txtNomCliente.setColumns(10);
-		txtNomCliente.setBounds(12, 78, 200, 22);
+		txtNomCliente.setBounds(12, 98, 428, 33);
 		contentPanel.add(txtNomCliente);
 
-		JLabel lblDireccinCliente = new JLabel("Direcci\u00F3n cliente:");
-		lblDireccinCliente.setBounds(222, 59, 145, 16);
+		JLabel lblDireccinCliente = new JLabel("Direcci\u00F3n del Cliente:");
+		lblDireccinCliente.setBounds(12, 144, 170, 16);
 		contentPanel.add(lblDireccinCliente);
 
 		txtDireCliente = new JTextField();
 		txtDireCliente.setColumns(10);
-		txtDireCliente.setBounds(222, 78, 200, 22);
+		txtDireCliente.setBounds(12, 165, 428, 33);
 		contentPanel.add(txtDireCliente);
 
-		JLabel lblTlefonoCliente = new JLabel("T\u00E9lefono cliente:");
-		lblTlefonoCliente.setBounds(12, 113, 145, 16);
+		JLabel lblTlefonoCliente = new JLabel("T\u00E9lefono del Cliente:");
+		lblTlefonoCliente.setBounds(12, 211, 170, 16);
 		contentPanel.add(lblTlefonoCliente);
 
 		txtTelCliente = new JTextField();
 		txtTelCliente.setColumns(10);
-		txtTelCliente.setBounds(12, 132, 200, 22);
+		txtTelCliente.setBounds(12, 230, 200, 33);
 		contentPanel.add(txtTelCliente);
 
 		txtContrasena = new JTextField();
 		txtContrasena.setColumns(10);
-		txtContrasena.setBounds(224, 132, 200, 22);
+		txtContrasena.setBounds(240, 230, 200, 33);
 		contentPanel.add(txtContrasena);
 
-		JLabel lblContraseaCliente = new JLabel("Contrase\u00F1a cliente:");
-		lblContraseaCliente.setBounds(224, 117, 123, 14);
+		JLabel lblContraseaCliente = new JLabel("Contrase\u00F1a del Cliente:");
+		lblContraseaCliente.setBounds(240, 211, 176, 14);
 		contentPanel.add(lblContraseaCliente);
 
 		{
@@ -397,6 +397,6 @@ public class RegContrato extends JDialog {
 
 	private String generarIdContrato() {
 		int num = Sistema.getInstance().getMisContratos().size() + 1;
-		return "CONT-000" + num;
+		return "CONT-" + num;
 	}
 }

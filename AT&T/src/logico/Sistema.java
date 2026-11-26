@@ -348,4 +348,52 @@ public class Sistema implements Serializable{
 
 		auxContrato.getPlan().setEstado(false);
 	}
+	
+	public Factura buscarFacturaDeContrato(Contrato target) {
+		if (target == null || misFacturas == null) {
+			return null;
+		}
+
+		Factura coincidenciaSinPagar = null;
+
+		for (Factura f : misFacturas) {
+			if (f == null || f.getCliente() == null || f.getCliente().getContratos() == null) {
+				continue;
+			}
+
+			boolean contratoPerteneceAlCliente = false;
+			for (Contrato c : f.getCliente().getContratos()) {
+				if (c == null) {
+					continue;
+				}
+				boolean mismaRef = (c == target) || c.equals(target);
+				boolean mismoId = c.getIdContrato() != null
+					&& target.getIdContrato() != null
+					&& c.getIdContrato().equals(target.getIdContrato());
+
+				if (mismaRef || mismoId) {
+					contratoPerteneceAlCliente = true;
+					break;
+				}
+			}
+
+			if (!contratoPerteneceAlCliente) {
+				continue;
+			}
+
+			boolean coincideMonto = Math.abs(f.getMontoTotal() - target.getCargoFijoMensual()) < 0.01f;
+			boolean esUnicoContrato = f.getCliente().getContratos().size() == 1;
+
+			if (coincideMonto || esUnicoContrato) {
+				if (f.isPagada()) {
+					return f;
+				}
+				if (coincidenciaSinPagar == null) {
+					coincidenciaSinPagar = f;
+				}
+			}
+		}
+
+		return coincidenciaSinPagar;
+	}
 }

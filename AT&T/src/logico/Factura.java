@@ -5,7 +5,10 @@ import java.util.Date;
 
 public class Factura implements Serializable{
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4959283773327261989L;
 
 	private String idFactura;
 	private Cliente cliente;
@@ -13,6 +16,7 @@ public class Factura implements Serializable{
 	private Date fechaPago;
 	private float montoTotal;
 	private boolean pagada;
+	
 	public Factura(String idFactura, Cliente cliente, Date fechaEmision, Date fechaPago,
 			float montoTotal, boolean pagada) {
 		super();

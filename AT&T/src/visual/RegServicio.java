@@ -59,8 +59,8 @@ public class RegServicio extends JDialog {
 	}
 
 	public RegServicio() {
-		setTitle("Registrar Servicio");
-		setBounds(100, 100, 1128, 570);
+		setTitle("Crear Servicio");
+		setBounds(100, 100, 470, 692);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -73,31 +73,31 @@ public class RegServicio extends JDialog {
 		panel.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("ID:");
-		lblNewLabel.setBounds(15, 66, 69, 20);
+		lblNewLabel.setBounds(15, 13, 69, 20);
 		panel.add(lblNewLabel);
 
 		txtId = new JTextField();
-		txtId.setBounds(15, 97, 146, 26);
+		txtId.setBounds(15, 35, 197, 34);
 		panel.add(txtId);
 		txtId.setColumns(10);
 
 		JLabel lblNewLabel_1 = new JLabel("Fecha de Contratacion:");
-		lblNewLabel_1.setBounds(216, 66, 187, 20);
+		lblNewLabel_1.setBounds(224, 13, 187, 20);
 		panel.add(lblNewLabel_1);
 
 		txtFechaContratacion = new JSpinner();
 		txtFechaContratacion.setModel(new SpinnerDateModel(new java.util.Date(), null, null, Calendar.DAY_OF_YEAR));
-		txtFechaContratacion.setBounds(216, 97, 161, 26);
+		txtFechaContratacion.setBounds(224, 35, 212, 34);
 		panel.add(txtFechaContratacion);
 
 		JLabel lblNewLabel_2 = new JLabel("Seleccione el Servicio:");
 		lblNewLabel_2.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 18));
-		lblNewLabel_2.setBounds(15, 154, 287, 20);
+		lblNewLabel_2.setBounds(137, 82, 187, 20);
 		panel.add(lblNewLabel_2);
 
 		chckbxInternet = new JCheckBox("Internet");
 		chckbxInternet.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 16));
-		chckbxInternet.setBounds(15, 200, 139, 29);
+		chckbxInternet.setBounds(15, 111, 139, 29);
 		chckbxInternet.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (chckbxInternet.isSelected()) {
@@ -110,25 +110,25 @@ public class RegServicio extends JDialog {
 		panel.add(chckbxInternet);
 
 		JLabel lblNewLabel_3 = new JLabel("Velocidad de Bajada:");
-		lblNewLabel_3.setBounds(15, 252, 180, 20);
+		lblNewLabel_3.setBounds(15, 149, 180, 20);
 		panel.add(lblNewLabel_3);
 
 		txtVelocidadBajada = new JTextField();
-		txtVelocidadBajada.setBounds(15, 288, 146, 26);
+		txtVelocidadBajada.setBounds(15, 172, 197, 34);
 		panel.add(txtVelocidadBajada);
 		txtVelocidadBajada.setColumns(10);
 
 		JLabel lblNewLabel_4 = new JLabel("Velocidad de Subida:");
-		lblNewLabel_4.setBounds(216, 252, 161, 20);
+		lblNewLabel_4.setBounds(239, 149, 161, 20);
 		panel.add(lblNewLabel_4);
 
 		txtVelocidadSubida = new JTextField();
-		txtVelocidadSubida.setBounds(216, 288, 146, 26);
+		txtVelocidadSubida.setBounds(239, 172, 197, 34);
 		panel.add(txtVelocidadSubida);
 		txtVelocidadSubida.setColumns(10);
 
 		JLabel lblNewLabel_5 = new JLabel("Tipo de Conexion:");
-		lblNewLabel_5.setBounds(15, 347, 146, 20);
+		lblNewLabel_5.setBounds(15, 219, 146, 20);
 		panel.add(lblNewLabel_5);
 
 		cbxTipoConexion = new JComboBox<String>();
@@ -138,26 +138,21 @@ public class RegServicio extends JDialog {
 			"HFC (Coaxial) -> $600",
 			"ADSL (Inalambrico) -> $400"
 		}));
-		cbxTipoConexion.setBounds(15, 383, 146, 26);
+		cbxTipoConexion.setBounds(15, 246, 197, 34);
 		panel.add(cbxTipoConexion);
 
 		JLabel lblNewLabel_6 = new JLabel("Limite de Datos:");
-		lblNewLabel_6.setBounds(216, 347, 146, 20);
+		lblNewLabel_6.setBounds(239, 219, 146, 20);
 		panel.add(lblNewLabel_6);
 
 		txtLimiteDatos = new JTextField();
-		txtLimiteDatos.setBounds(216, 383, 146, 26);
+		txtLimiteDatos.setBounds(239, 246, 197, 34);
 		panel.add(txtLimiteDatos);
 		txtLimiteDatos.setColumns(10);
 
-		JLabel lblNewLabel_7 = new JLabel("Registrar Servicio");
-		lblNewLabel_7.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 20));
-		lblNewLabel_7.setBounds(473, 16, 251, 26);
-		panel.add(lblNewLabel_7);
-
 		chckbxTelefono = new JCheckBox("Telefono");
 		chckbxTelefono.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 16));
-		chckbxTelefono.setBounds(442, 200, 139, 29);
+		chckbxTelefono.setBounds(15, 295, 139, 29);
 		chckbxTelefono.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (chckbxTelefono.isSelected()) {
@@ -170,25 +165,25 @@ public class RegServicio extends JDialog {
 		panel.add(chckbxTelefono);
 
 		JLabel lblNewLabel_8 = new JLabel("Numero de Telefono:");
-		lblNewLabel_8.setBounds(442, 252, 161, 20);
+		lblNewLabel_8.setBounds(15, 333, 161, 20);
 		panel.add(lblNewLabel_8);
 
 		txtNumeroTelefono = new JTextField();
-		txtNumeroTelefono.setBounds(442, 288, 146, 26);
+		txtNumeroTelefono.setBounds(15, 354, 197, 34);
 		panel.add(txtNumeroTelefono);
 		txtNumeroTelefono.setColumns(10);
 
 		JLabel lblNewLabel_10 = new JLabel("Minutos Incluidos:");
-		lblNewLabel_10.setBounds(641, 252, 146, 20);
+		lblNewLabel_10.setBounds(239, 333, 146, 20);
 		panel.add(lblNewLabel_10);
 
 		txtMinutosIncluidos = new JTextField();
-		txtMinutosIncluidos.setBounds(641, 288, 146, 26);
+		txtMinutosIncluidos.setBounds(239, 354, 197, 34);
 		panel.add(txtMinutosIncluidos);
 		txtMinutosIncluidos.setColumns(10);
 
 		JLabel lblNewLabel_9 = new JLabel("Tipo de Linea:");
-		lblNewLabel_9.setBounds(442, 347, 146, 20);
+		lblNewLabel_9.setBounds(15, 401, 146, 20);
 		panel.add(lblNewLabel_9);
 
 		cbxTipoLinea = new JComboBox<String>();
@@ -198,12 +193,12 @@ public class RegServicio extends JDialog {
 			"Fijo (Residencial) -> $350",
 			"VoIP (Telefonia por Internet) -> $250"
 		}));
-		cbxTipoLinea.setBounds(442, 387, 345, 26);
+		cbxTipoLinea.setBounds(15, 423, 421, 34);
 		panel.add(cbxTipoLinea);
 
 		chckbxCable = new JCheckBox("Cable");
 		chckbxCable.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 16));
-		chckbxCable.setBounds(861, 200, 139, 29);
+		chckbxCable.setBounds(15, 469, 139, 29);
 		chckbxCable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (chckbxCable.isSelected()) {
@@ -216,16 +211,16 @@ public class RegServicio extends JDialog {
 		panel.add(chckbxCable);
 
 		JLabel lblNewLabel_11 = new JLabel("Cantidad de Canales:");
-		lblNewLabel_11.setBounds(861, 252, 170, 20);
+		lblNewLabel_11.setBounds(15, 503, 170, 20);
 		panel.add(lblNewLabel_11);
 
 		txtCantCanales = new JTextField();
-		txtCantCanales.setBounds(861, 288, 146, 26);
+		txtCantCanales.setBounds(15, 525, 197, 34);
 		panel.add(txtCantCanales);
 		txtCantCanales.setColumns(10);
 
 		JLabel lblNewLabel_12 = new JLabel("Tipo del Paquete de Cable:");
-		lblNewLabel_12.setBounds(861, 347, 197, 20);
+		lblNewLabel_12.setBounds(239, 503, 197, 20);
 		panel.add(lblNewLabel_12);
 
 		cbxTipoPaqueteCable = new JComboBox<String>();
@@ -235,7 +230,7 @@ public class RegServicio extends JDialog {
 			"HD -> $900",
 			"Premium -> $1,400"
 		}));
-		cbxTipoPaqueteCable.setBounds(861, 387, 146, 26);
+		cbxTipoPaqueteCable.setBounds(239, 525, 197, 34);
 		panel.add(cbxTipoPaqueteCable);
 
 		{
@@ -243,7 +238,7 @@ public class RegServicio extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				btnGuardar = new JButton("Guardar");
+				btnGuardar = new JButton("Crear");
 				btnGuardar.setActionCommand("OK");
 				btnGuardar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -271,7 +266,7 @@ public class RegServicio extends JDialog {
 
 	private String generarIdServicioAutomatico() {
 		int num = Sistema.getInstance().getMisServicios().size() + 1;
-		return "0000" + num;
+		return "SER-" + num;
 	}
 
 	private String limpiarEtiquetaCombo(String opcion) {

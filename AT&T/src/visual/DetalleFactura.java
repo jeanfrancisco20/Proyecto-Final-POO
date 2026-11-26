@@ -56,7 +56,7 @@ public class DetalleFactura extends JDialog {
 		this.facturaActual= factura;
 		
 		setTitle("Detalle de la Factura");
-		setBounds(100, 100, 433, 340);
+		setBounds(100, 100, 470, 373);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -73,7 +73,7 @@ public class DetalleFactura extends JDialog {
 			panel.add(lblNewLabel);
 			
 			idTxt = new JTextField();
-			idTxt.setBounds(12, 35, 182, 22);
+			idTxt.setBounds(12, 31, 198, 32);
 			idTxt.setEditable(false);
 			panel.add(idTxt);
 			idTxt.setColumns(10);
@@ -83,37 +83,37 @@ public class DetalleFactura extends JDialog {
 			panel.add(lblNewLabel_1);
 			
 			clienteTxt = new JTextField();
-			clienteTxt.setBounds(12, 91, 182, 22);
+			clienteTxt.setBounds(12, 87, 198, 32);
 			clienteTxt.setEditable(false);
 			panel.add(clienteTxt);
 			clienteTxt.setColumns(10);
 			
 			JLabel lblNewLabel_2 = new JLabel("Monto Total:");
-			lblNewLabel_2.setBounds(121, 215, 73, 16);
+			lblNewLabel_2.setBounds(147, 220, 73, 16);
 			panel.add(lblNewLabel_2);
 			
 			JLabel lblNewLabel_3 = new JLabel("Fecha de Emisi\u00F3n:");
-			lblNewLabel_3.setBounds(12, 126, 116, 16);
+			lblNewLabel_3.setBounds(12, 143, 116, 16);
 			panel.add(lblNewLabel_3);
 			
 			JLabel lblNewLabel_4 = new JLabel("Fecha de Pago:");
-			lblNewLabel_4.setBounds(208, 126, 89, 16);
+			lblNewLabel_4.setBounds(232, 143, 89, 16);
 			panel.add(lblNewLabel_4);
 			
 			fechaEmiCbx = new JSpinner();
 			fechaEmiCbx.setModel(new SpinnerDateModel(new Date(1795060800000L), null, null, Calendar.DAY_OF_YEAR));
-			fechaEmiCbx.setBounds(12, 151, 182, 22);
+			fechaEmiCbx.setBounds(12, 161, 198, 32);
 			((JSpinner.DefaultEditor) fechaEmiCbx.getEditor()).getTextField().setEditable(false);
 			panel.add(fechaEmiCbx);
 			
 			fechaPagoCbx = new JSpinner();
 			fechaPagoCbx.setModel(new SpinnerDateModel(new Date(1795060800000L), null, null, Calendar.DAY_OF_YEAR));
-			fechaPagoCbx.setBounds(208, 151, 182, 22);
+			fechaPagoCbx.setBounds(232, 161, 198, 32);
 			((JSpinner.DefaultEditor) fechaPagoCbx.getEditor()).getTextField().setEditable(false);
 			panel.add(fechaPagoCbx);
 			
 			montoTxt = new JTextField();
-			montoTxt.setBounds(208, 212, 182, 22);
+			montoTxt.setBounds(232, 212, 198, 32);
 			montoTxt.setEditable(false);
 			panel.add(montoTxt);
 			montoTxt.setColumns(10);

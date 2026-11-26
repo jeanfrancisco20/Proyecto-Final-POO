@@ -65,7 +65,6 @@ public class Telefono extends Servicio {
 	        tarifaBase = 300;
 	    }
 	    
-	    // Costo por minutos (si es -1 representa minutos ilimitados con tarifa plana)
 	    float costoMinutos;
 	    if (minutosIncluidos == -1) {
 	        costoMinutos = 600.0f; 

@@ -1,6 +1,7 @@
 package visual;
 
 import java.awt.BorderLayout;
+
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -44,6 +45,7 @@ public class RegPlan extends JDialog {
 
 	private Plan planAEditar = null;
 	private boolean esEdicion = false;
+	private JLabel lblNewLabel;
 
 	public static void main(String[] args) {
 		try {
@@ -64,7 +66,7 @@ public class RegPlan extends JDialog {
 		this.esEdicion = (this.planAEditar != null);
 
 		setTitle(esEdicion ? "Modificar Plan" : "Crear Nuevo Plan");
-		setBounds(100, 100, 450, 438);
+		setBounds(100, 100, 470, 458);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -76,39 +78,35 @@ public class RegPlan extends JDialog {
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
 
-			JLabel lblNewLabel = new JLabel("Identificador:");
-			lblNewLabel.setBounds(12, 13, 96, 16);
-			panel.add(lblNewLabel);
-
 			idTxt = new JTextField();
-			idTxt.setBounds(12, 32, 196, 22);
+			idTxt.setBounds(12, 32, 212, 32);
 			panel.add(idTxt);
 			idTxt.setColumns(10);
 
 			JLabel lblNewLabel_1 = new JLabel("Nombre:");
-			lblNewLabel_1.setBounds(12, 67, 56, 16);
+			lblNewLabel_1.setBounds(12, 67, 85, 16);
 			panel.add(lblNewLabel_1);
 
 			nombreTxt = new JTextField();
-			nombreTxt.setBounds(12, 86, 398, 22);
+			nombreTxt.setBounds(12, 86, 418, 32);
 			panel.add(nombreTxt);
 			nombreTxt.setColumns(10);
 
 			descripcionTxt = new JTextField();
-			descripcionTxt.setBounds(12, 142, 398, 22);
+			descripcionTxt.setBounds(12, 151, 418, 32);
 			panel.add(descripcionTxt);
 			descripcionTxt.setColumns(10);
 
 			JLabel lblNewLabel_2 = new JLabel("Descripci\u00F3n:");
-			lblNewLabel_2.setBounds(12, 121, 96, 16);
+			lblNewLabel_2.setBounds(12, 133, 116, 16);
 			panel.add(lblNewLabel_2);
 
 			JLabel lblNewLabel_4 = new JLabel("Servicios Disponibles:");
-			lblNewLabel_4.setBounds(12, 176, 131, 16);
+			lblNewLabel_4.setBounds(12, 197, 169, 16);
 			panel.add(lblNewLabel_4);
 
 			JLabel lblNewLabel_5 = new JLabel("Servicios Seleccionados:");
-			lblNewLabel_5.setBounds(214, 176, 158, 16);
+			lblNewLabel_5.setBounds(226, 197, 186, 16);
 			panel.add(lblNewLabel_5);
 
 			modelosDisponibles = new DefaultComboBoxModel<>();
@@ -129,12 +127,12 @@ public class RegPlan extends JDialog {
 			};
 
 			dispoCbx = new JComboBox<>(modelosDisponibles);
-			dispoCbx.setBounds(12, 198, 196, 22);
+			dispoCbx.setBounds(12, 215, 204, 32);
 			dispoCbx.setRenderer(servicioRenderer);
 			panel.add(dispoCbx);
 
 			selCbx = new JComboBox<>(modelosElegidos);
-			selCbx.setBounds(214, 198, 196, 22);
+			selCbx.setBounds(226, 216, 204, 32);
 			selCbx.setRenderer(servicioRenderer);
 			panel.add(selCbx);
 
@@ -144,7 +142,7 @@ public class RegPlan extends JDialog {
 					agregarServicioSeleccionado();
 				}
 			});
-			agregarBtn.setBounds(111, 233, 97, 25);
+			agregarBtn.setBounds(111, 261, 97, 25);
 			panel.add(agregarBtn);
 
 			JButton quitarBtn = new JButton("<-Quitar");
@@ -153,19 +151,23 @@ public class RegPlan extends JDialog {
 					eliminarServicioSeleccionado();
 				}
 			});
-			quitarBtn.setBounds(214, 233, 97, 25);
+			quitarBtn.setBounds(226, 261, 97, 25);
 			panel.add(quitarBtn);
 
 			JLabel lblNewLabel_6 = new JLabel("Costo Total:");
-			lblNewLabel_6.setBounds(214, 293, 73, 16);
+			lblNewLabel_6.setBounds(210, 314, 92, 16);
 			panel.add(lblNewLabel_6);
 
 			costoTxt = new JTextField();
-			costoTxt.setBounds(294, 290, 116, 22);
+			costoTxt.setBounds(314, 306, 116, 32);
 			panel.add(costoTxt);
 			costoTxt.setColumns(10);
 			costoTxt.setEditable(false);
 			costoTxt.setText("0.00");
+			
+			lblNewLabel = new JLabel("ID:");
+			lblNewLabel.setBounds(12, 13, 56, 16);
+			panel.add(lblNewLabel);
 		}
 		{
 			JPanel buttonPane = new JPanel();

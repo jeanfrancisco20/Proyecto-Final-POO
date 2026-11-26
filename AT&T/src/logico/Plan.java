@@ -5,7 +5,11 @@ import java.util.ArrayList;
 
 public class Plan implements Serializable{
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8070644873227017333L;
+	//private static final long serialVersionUID = 1L;
 
 	private String idPlan;
 	private String nombre;

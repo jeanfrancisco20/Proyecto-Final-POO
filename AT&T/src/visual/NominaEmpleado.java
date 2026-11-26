@@ -84,7 +84,7 @@ public class NominaEmpleado extends JDialog {
 				buttonPane.add(btnDespedir);
 			}
 			{
-				btnEditar = new JButton("Editar");
+				btnEditar = new JButton("Modificar");
 				btnEditar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						editarEmpleado();

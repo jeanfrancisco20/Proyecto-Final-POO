@@ -5,7 +5,11 @@ import java.util.ArrayList;
 
 public class Cliente extends Persona implements Serializable{
 	
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7752343539888906855L;
+	//private static final long serialVersionUID = 1L;
 
 	private String idCliente;
 	private String telefono;

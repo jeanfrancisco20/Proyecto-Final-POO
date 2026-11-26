@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JComponent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -34,17 +35,29 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
+import javax.swing.JCheckBox;
+import javax.swing.ImageIcon;
+import java.awt.Image;
 
 import logico.Sistema;
 
 public class Principal extends JFrame {
 
-	private static final Color NEGRO_FONDO = new Color(24, 24, 24);
-	private static final Color NEGRO_BARRA = Color.BLACK;
-	private static final Color GRIS_PANEL = new Color(45, 45, 45);
-	private static final Color GRIS_RESALTADO = new Color(85, 85, 85);
-	private static final Color BLANCO_TEXTO = Color.WHITE;
+	private static final Color NEGRO_FONDO = new Color(30, 41, 59);
+	private static final Color NEGRO_BARRA = new Color(15, 23, 42);
+	private static final Color GRIS_PANEL = new Color(51, 65, 85);
+	private static final Color GRIS_RESALTADO = new Color(59, 130, 246);
+	private static final Color BLANCO_TEXTO = new Color(248, 250, 252);
 
+	private static final Color AZUL_BOTON = new Color(37, 99, 235);
+	private static final Color BORDE = new Color(100, 116, 139);
+
+	private static final Font FUENTE =
+	        new Font("Segoe UI", Font.PLAIN, 14);
+
+	private static final Font FUENTE_TITULO =
+	        new Font("Segoe UI", Font.BOLD, 14);
+	
 	private JPanel contentPane;
 
 	public static void main(String[] args) {
@@ -52,8 +65,8 @@ public class Principal extends JFrame {
 			System.setProperty("awt.useSystemAAFontSettings", "on");
 			System.setProperty("swing.aatext", "true");
 
-			Font fuenteMenu = new Font("Arial", Font.BOLD, 14);
-			Font fuenteItem = new Font("Arial", Font.PLAIN, 13);
+			Font fuenteMenu = new Font("Segoe UI", Font.BOLD, 14);
+			Font fuenteItem = new Font("Segoe UI", Font.PLAIN, 13);
 
 			UIManager.put("MenuBar.background", NEGRO_BARRA);
 			UIManager.put("MenuBar.foreground", BLANCO_TEXTO);
@@ -94,7 +107,13 @@ public class Principal extends JFrame {
 	}
 
 	public Principal() {
+		setBackground(SystemColor.menu);
 		setTitle("AT&T");
+		setIconImage(
+			    new ImageIcon(
+			        getClass().getResource("/img/conexion.png")
+			    ).getImage()
+			);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1020, 683);
 		setLocationRelativeTo(null);
@@ -116,8 +135,17 @@ public class Principal extends JFrame {
 
 		JMenu mnNewMenu_2 = new JMenu("Gesti\u00F3n de Empleados y Clientes");
 		menuBar.add(mnNewMenu_2);
+		
 
 		JMenuItem mntmNewMenuItem = new JMenuItem("Registrar Empleado");
+		ImageIcon iconRegistrar = new ImageIcon(
+		        getClass().getResource("/img/RegEmp.png"));
+
+		Image imgRegistrar = iconRegistrar.getImage()
+		        .getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+
+		mntmNewMenuItem.setIcon(new ImageIcon(imgRegistrar));
+		
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegEmpleado regEmpleado = new RegEmpleado(null);
@@ -129,6 +157,14 @@ public class Principal extends JFrame {
 		mnNewMenu_2.add(mntmNewMenuItem);
 
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Manejo de Empleados");
+		ImageIcon iconListEmp = new ImageIcon(
+		        getClass().getResource("/img/ListEmp.png"));
+
+		Image imgListEmp = iconListEmp.getImage()
+		        .getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+
+		mntmNewMenuItem_2.setIcon(new ImageIcon(imgListEmp));
+		
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				NominaEmpleado nominaEmpleado = new NominaEmpleado();
@@ -140,6 +176,14 @@ public class Principal extends JFrame {
 		mnNewMenu_2.add(mntmNewMenuItem_2);
 
 		JMenuItem mntmNewMenu_1 = new JMenuItem("Lista de Clientes");
+		ImageIcon iconListCli = new ImageIcon(
+		        getClass().getResource("/img/ListCli.png"));
+
+		Image imgListCli = iconListCli.getImage()
+		        .getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+
+		mntmNewMenu_1.setIcon(new ImageIcon(imgListCli));
+		
 		mntmNewMenu_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ListarCliente listarCliente = new ListarCliente();
@@ -214,8 +258,14 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_9 = new JMenuItem("Generar Facturas");
 		mntmNewMenuItem_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Sistema.getInstance().generarFacturasTodosLosClientes();
-				JOptionPane.showMessageDialog(null, "Facturas generadas correctamente.", "Facturación", JOptionPane.INFORMATION_MESSAGE);
+				java.util.ArrayList<logico.Factura> creadas = Sistema.getInstance().generarFacturasTodosLosClientes();
+				if (creadas.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "No había facturas nuevas por generar.", "Facturación",
+							JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Facturas generadas correctamente.", "Facturación",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
 				ListarFacturas listarFacturas = new ListarFacturas();
 				aplicarTemaOscuro(listarFacturas);
 				listarFacturas.setModal(true);
@@ -318,40 +368,108 @@ public class Principal extends JFrame {
 	}
 
 	private void estilizarComponenteRecursivo(Component comp) {
-		if (comp instanceof JPanel) {
-			comp.setBackground(GRIS_PANEL);
-			comp.setForeground(BLANCO_TEXTO);
-		} else if (comp instanceof JLabel) {
-			comp.setForeground(BLANCO_TEXTO);
-		} else if (comp instanceof JButton) {
-			comp.setBackground(NEGRO_FONDO);
-			comp.setForeground(BLANCO_TEXTO);
-		} else if (comp instanceof JTextField || comp instanceof JTextArea) {
-			comp.setBackground(NEGRO_FONDO);
-			comp.setForeground(BLANCO_TEXTO);
-			((javax.swing.text.JTextComponent) comp).setCaretColor(BLANCO_TEXTO);
-		} else if (comp instanceof JComboBox) {
-			comp.setBackground(NEGRO_FONDO);
-			comp.setForeground(BLANCO_TEXTO);
-		} else if (comp instanceof JTable) {
-			JTable tabla = (JTable) comp;
-			tabla.setBackground(NEGRO_FONDO);
-			tabla.setForeground(BLANCO_TEXTO);
-			tabla.setSelectionBackground(GRIS_RESALTADO);
-			tabla.setSelectionForeground(BLANCO_TEXTO);
-			if (tabla.getTableHeader() != null) {
-				tabla.getTableHeader().setBackground(NEGRO_BARRA);
-				tabla.getTableHeader().setForeground(BLANCO_TEXTO);
-			}
-		} else if (comp instanceof JScrollPane) {
-			JScrollPane sp = (JScrollPane) comp;
-			sp.getViewport().setBackground(NEGRO_FONDO);
-		}
 
-		if (comp instanceof Container) {
-			for (Component hijo : ((Container) comp).getComponents()) {
-				estilizarComponenteRecursivo(hijo);
-			}
-		}
+	    comp.setFont(FUENTE);
+
+	    if (comp instanceof JPanel) {
+
+	        comp.setBackground(GRIS_PANEL);
+	        comp.setForeground(BLANCO_TEXTO);
+
+	    } else if (comp instanceof JLabel) {
+
+	        comp.setForeground(BLANCO_TEXTO);
+	        comp.setFont(FUENTE_TITULO);
+
+	    } else if (comp instanceof JButton) {
+
+	        JButton btn = (JButton) comp;
+
+	        btn.setBackground(AZUL_BOTON);
+	        btn.setForeground(Color.WHITE);
+	        btn.setFocusPainted(false);
+	        btn.setBorderPainted(false);
+	        btn.setOpaque(true);
+
+	        btn.setBorder(
+	            BorderFactory.createEmptyBorder(8, 15, 8, 15));
+	        
+	    } else if (comp instanceof JTextField) {
+
+	        JTextField txt = (JTextField) comp;
+
+	        txt.setBackground(NEGRO_FONDO);
+	        txt.setForeground(BLANCO_TEXTO);
+	        txt.setCaretColor(BLANCO_TEXTO);
+
+	        txt.setBorder(
+	        	    BorderFactory.createCompoundBorder(
+	        	        BorderFactory.createLineBorder(BORDE, 1),
+	        	        BorderFactory.createEmptyBorder(6, 8, 6, 8)
+	        	    )
+	        	);
+
+	    } else if (comp instanceof JTextArea) {
+
+	        JTextArea txt = (JTextArea) comp;
+
+	        txt.setBackground(NEGRO_FONDO);
+	        txt.setForeground(BLANCO_TEXTO);
+	        txt.setCaretColor(BLANCO_TEXTO);
+
+	        txt.setBorder(
+	            BorderFactory.createCompoundBorder(
+	                BorderFactory.createLineBorder(BORDE),
+	                BorderFactory.createEmptyBorder(5, 8, 5, 8)
+	            )
+	        );
+
+	    } else if (comp instanceof JComboBox) {
+
+	        JComboBox<?> combo = (JComboBox<?>) comp;
+
+	        combo.setBackground(NEGRO_FONDO);
+	        combo.setForeground(BLANCO_TEXTO);
+
+	        combo.setBorder(
+	            BorderFactory.createLineBorder(BORDE)
+	        );
+
+	    } else if (comp instanceof JTable) {
+
+	        JTable tabla = (JTable) comp;
+
+	        tabla.setBackground(NEGRO_FONDO);
+	        tabla.setForeground(BLANCO_TEXTO);
+	        tabla.setRowHeight(28);
+
+	        tabla.setSelectionBackground(GRIS_RESALTADO);
+	        tabla.setSelectionForeground(BLANCO_TEXTO);
+
+	        if (tabla.getTableHeader() != null) {
+
+	            tabla.getTableHeader().setBackground(NEGRO_BARRA);
+	            tabla.getTableHeader().setForeground(BLANCO_TEXTO);
+	            tabla.getTableHeader().setFont(FUENTE_TITULO);
+	        }
+
+	    } else if (comp instanceof JScrollPane) {
+
+	        JScrollPane sp = (JScrollPane) comp;
+	        sp.getViewport().setBackground(NEGRO_FONDO);
+	    } else if (comp instanceof JCheckBox) {
+
+	        JCheckBox chk = (JCheckBox) comp;
+
+	        chk.setBackground(GRIS_PANEL);
+	        chk.setForeground(BLANCO_TEXTO);
+	        chk.setFocusPainted(false);
+	    }
+
+	    if (comp instanceof Container) {
+	        for (Component hijo : ((Container) comp).getComponents()) {
+	            estilizarComponenteRecursivo(hijo);
+	        }
+	    }
 	}
 }

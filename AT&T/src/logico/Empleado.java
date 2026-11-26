@@ -5,7 +5,11 @@ import java.util.Date;
 
 public abstract class Empleado extends Persona implements Serializable{
 	
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1877579970217624978L;
+	//private static final long serialVersionUID = 1L;
 
 	protected String idEmpleado;
 	protected String puesto;

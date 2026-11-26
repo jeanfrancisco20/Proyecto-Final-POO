@@ -52,6 +52,7 @@ public class RegEmpleado extends JDialog {
 	}
 
 	public RegEmpleado(Empleado aux) {
+		setTitle("Registrar Empleado");
 		if (aux != null) {
 			e = aux;
 			setTitle("Modificar Empleado");
@@ -59,7 +60,7 @@ public class RegEmpleado extends JDialog {
 			setTitle("Crear Nuevo Empleado");
 		}
 
-		setBounds(100, 100, 450, 441);
+		setBounds(100, 100, 470, 515);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -67,13 +68,13 @@ public class RegEmpleado extends JDialog {
 		contentPanel.setLayout(null);
 
 		{
-			JLabel lblNewLabel = new JLabel("Identificador:");
+			JLabel lblNewLabel = new JLabel("ID:");
 			lblNewLabel.setBounds(12, 13, 141, 16);
 			contentPanel.add(lblNewLabel);
 		}
 		{
 			txtIDEmpleado = new JTextField();
-			txtIDEmpleado.setBounds(12, 33, 200, 22);
+			txtIDEmpleado.setBounds(12, 33, 200, 32);
 			txtIDEmpleado.setText(generarIdEmpleado());
 			txtIDEmpleado.setEditable(false);
 			contentPanel.add(txtIDEmpleado);
@@ -82,7 +83,7 @@ public class RegEmpleado extends JDialog {
 		{
 			txtNombre = new JTextField();
 			txtNombre.setColumns(10);
-			txtNombre.setBounds(12, 88, 200, 22);
+			txtNombre.setBounds(12, 88, 429, 32);
 			contentPanel.add(txtNombre);
 		}
 		{
@@ -93,51 +94,51 @@ public class RegEmpleado extends JDialog {
 		{
 			txtPuesto = new JTextField();
 			txtPuesto.setColumns(10);
-			txtPuesto.setBounds(220, 88, 200, 22);
+			txtPuesto.setBounds(241, 157, 200, 32);
 			contentPanel.add(txtPuesto);
 		}
 		{
 			JLabel lblPuesto = new JLabel("Puesto:");
-			lblPuesto.setBounds(220, 68, 141, 16);
+			lblPuesto.setBounds(241, 133, 141, 16);
 			contentPanel.add(lblPuesto);
 		}
 		{
-			JLabel lblContraseaEmpleado = new JLabel("Contrase\u00F1a empleado:");
-			lblContraseaEmpleado.setBounds(12, 121, 141, 16);
+			JLabel lblContraseaEmpleado = new JLabel("Contrase\u00F1a del Empleado:");
+			lblContraseaEmpleado.setBounds(12, 133, 200, 16);
 			contentPanel.add(lblContraseaEmpleado);
 		}
 		{
 			txtContrasena = new JTextField();
 			txtContrasena.setColumns(10);
-			txtContrasena.setBounds(12, 141, 200, 22);
+			txtContrasena.setBounds(12, 157, 200, 32);
 			contentPanel.add(txtContrasena);
 		}
 		{
-			JLabel lblFechaDeIngreso = new JLabel("Fecha de ingreso:");
-			lblFechaDeIngreso.setBounds(220, 123, 141, 16);
+			JLabel lblFechaDeIngreso = new JLabel("Fecha de Ingreso:");
+			lblFechaDeIngreso.setBounds(12, 202, 166, 16);
 			contentPanel.add(lblFechaDeIngreso);
 		}
 		{
 			txtFecha = new JTextField();
 			txtFecha.setText("dd/mm/yyyy");
 			txtFecha.setColumns(10);
-			txtFecha.setBounds(220, 143, 200, 22);
+			txtFecha.setBounds(12, 222, 200, 32);
 			contentPanel.add(txtFecha);
 		}
 		{
-			JLabel lblPagoPorHora = new JLabel("Pago por hora:");
-			lblPagoPorHora.setBounds(12, 176, 141, 16);
+			JLabel lblPagoPorHora = new JLabel("Pago por Hora:");
+			lblPagoPorHora.setBounds(12, 267, 141, 16);
 			contentPanel.add(lblPagoPorHora);
 		}
 		{
 			txtPago = new JTextField();
 			txtPago.setColumns(10);
-			txtPago.setBounds(12, 196, 200, 22);
+			txtPago.setBounds(12, 290, 200, 32);
 			contentPanel.add(txtPago);
 		}
 
 		JLabel lblNewLabel_1 = new JLabel("Tipo:");
-		lblNewLabel_1.setBounds(220, 176, 56, 16);
+		lblNewLabel_1.setBounds(241, 202, 95, 16);
 		contentPanel.add(lblNewLabel_1);
 
 		cbxTipo = new JComboBox<>();
@@ -161,38 +162,38 @@ public class RegEmpleado extends JDialog {
 			}
 		});
 		cbxTipo.setModel(new DefaultComboBoxModel<>(new String[] { "<<Seleccione tipo>>", "Administrador", "Comercial" }));
-		cbxTipo.setBounds(220, 195, 200, 22);
+		cbxTipo.setBounds(241, 222, 200, 32);
 		contentPanel.add(cbxTipo);
 
 		spinner = new JSpinner();
 		spinner.setModel(new SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
-		spinner.setBounds(12, 248, 200, 22);
+		spinner.setBounds(241, 290, 200, 32);
 		contentPanel.add(spinner);
 
-		JLabel lblHorasTrabajadas = new JLabel("Horas trabajadas:");
-		lblHorasTrabajadas.setBounds(12, 229, 141, 16);
+		JLabel lblHorasTrabajadas = new JLabel("Horas A Trabajar:");
+		lblHorasTrabajadas.setBounds(241, 267, 155, 16);
 		contentPanel.add(lblHorasTrabajadas);
 
 		txtComisiones = new JTextField();
 		txtComisiones.setEditable(false);
 		txtComisiones.setEnabled(false);
 		txtComisiones.setColumns(10);
-		txtComisiones.setBounds(220, 247, 200, 22);
+		txtComisiones.setBounds(241, 356, 200, 32);
 		contentPanel.add(txtComisiones);
 
-		JLabel lblComisionesPorVenta = new JLabel("Comisiones por venta:");
-		lblComisionesPorVenta.setBounds(220, 227, 141, 16);
+		JLabel lblComisionesPorVenta = new JLabel("Comisi\u00F3n por Venta:");
+		lblComisionesPorVenta.setBounds(241, 335, 200, 16);
 		contentPanel.add(lblComisionesPorVenta);
 
 		txtBonoAnual = new JTextField();
 		txtBonoAnual.setEditable(false);
 		txtBonoAnual.setEnabled(false);
 		txtBonoAnual.setColumns(10);
-		txtBonoAnual.setBounds(12, 294, 200, 22);
+		txtBonoAnual.setBounds(12, 356, 200, 32);
 		contentPanel.add(txtBonoAnual);
 
-		JLabel lblBonoAnual = new JLabel("Bono anual:");
-		lblBonoAnual.setBounds(12, 274, 141, 16);
+		JLabel lblBonoAnual = new JLabel("Bono Anual:");
+		lblBonoAnual.setBounds(12, 335, 141, 16);
 		contentPanel.add(lblBonoAnual);
 
 		{
@@ -340,7 +341,7 @@ public class RegEmpleado extends JDialog {
 
 	private String generarIdEmpleado() {
 		int num = Sistema.getInstance().getMisEmpleados().size() + 1;
-		return "EMP-000" + num;
+		return "EMP-" + num;
 	}
 
 	private void cargarEdicion() {

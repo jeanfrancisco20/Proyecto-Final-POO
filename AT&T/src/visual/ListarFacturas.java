@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -46,64 +48,58 @@ public class ListarFacturas extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
-		{
-			JPanel panel = new JPanel();
-			contentPanel.add(panel, BorderLayout.CENTER);
-			panel.setLayout(new BorderLayout(0, 0));
-			{
-				JScrollPane scrollPane = new JScrollPane();
-				panel.add(scrollPane, BorderLayout.CENTER);
-				{
-					modelo = new DefaultTableModel() {
-						private static final long serialVersionUID = 1L;
 
-						@Override
-						public boolean isCellEditable(int row, int column) {
-							return false;
-						}
-					};
-					table = new JTable(modelo);
-					scrollPane.setViewportView(table);
-				}
+		JPanel panel = new JPanel();
+		contentPanel.add(panel, BorderLayout.CENTER);
+		panel.setLayout(new BorderLayout(0, 0));
+
+		JScrollPane scrollPane = new JScrollPane();
+		panel.add(scrollPane, BorderLayout.CENTER);
+
+		modelo = new DefaultTableModel() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
 			}
-		}
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				pagarBtn = new JButton("Pagar");
-				pagarBtn.setEnabled(false);
-				pagarBtn.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						pagarFacturaSeleccionada();
-					}
-				});
-				pagarBtn.setActionCommand("OK");
-				buttonPane.add(pagarBtn);
-				getRootPane().setDefaultButton(pagarBtn);
+		};
+		table = new JTable(modelo);
+		scrollPane.setViewportView(table);
+
+		JPanel buttonPane = new JPanel();
+		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		getContentPane().add(buttonPane, BorderLayout.SOUTH);
+
+		pagarBtn = new JButton("Pagar");
+		pagarBtn.setEnabled(false);
+		pagarBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pagarFacturaSeleccionada();
 			}
-			{
-				detalleBtn = new JButton("Detalle");
-				detalleBtn.setEnabled(false);
-				detalleBtn.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						abrirDetalleFactura();
-					}
-				});
-				buttonPane.add(detalleBtn);
+		});
+		pagarBtn.setActionCommand("OK");
+		buttonPane.add(pagarBtn);
+		getRootPane().setDefaultButton(pagarBtn);
+
+		detalleBtn = new JButton("Detalle");
+		detalleBtn.setEnabled(false);
+		detalleBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				abrirDetalleFactura();
 			}
-			{
-				JButton cancelarBtn = new JButton("Cancelar");
-				cancelarBtn.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						dispose();
-					}
-				});
-				cancelarBtn.setActionCommand("Cancel");
-				buttonPane.add(cancelarBtn);
+		});
+		buttonPane.add(detalleBtn);
+
+		JButton cancelarBtn = new JButton("Salir");
+		cancelarBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
 			}
-		}
+		});
+		cancelarBtn.setActionCommand("Cancel");
+		buttonPane.add(cancelarBtn);
+
 		configurarSeleccionTabla();
 		cargarFacturas();
 	}
@@ -113,25 +109,42 @@ public class ListarFacturas extends JDialog {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				if (!e.getValueIsAdjusting()) {
-					boolean seleccionada = table.getSelectedRow() != -1;
-					pagarBtn.setEnabled(seleccionada);
+					int fila = table.getSelectedRow();
+					boolean seleccionada = fila != -1;
 					detalleBtn.setEnabled(seleccionada);
+
+					if (seleccionada) {
+						String estado = modelo.getValueAt(fila, 2).toString();
+						pagarBtn.setEnabled(!"Pagada".equalsIgnoreCase(estado));
+					} else {
+						pagarBtn.setEnabled(false);
+					}
 				}
 			}
 		});
 	}
 
-	private void cargarFacturas() {
+	private void limpiarTabla() {
 		String[] columna = { "Id", "Nombre", "Estado", "Monto" };
-		modelo.setDataVector(null, columna);
+		modelo.setRowCount(0);
+		modelo.setColumnIdentifiers(columna);
+		pagarBtn.setEnabled(false);
+		detalleBtn.setEnabled(false);
+	}
+
+	private void cargarFacturas() {
+		limpiarTabla();
+
+		Set<String> idsAgregados = new HashSet<>();
 		for (Factura f : Sistema.getInstance().getMisFacturas()) {
+			if (f == null || f.getIdFactura() == null || !idsAgregados.add(f.getIdFactura())) {
+				continue;
+			}
 			String nombreCliente = (f.getCliente() != null) ? f.getCliente().getNombre() : "Sin cliente";
-			String estado = f.isPagada() ? "Pagada" : "La debe";
+			String estado = f.isPagada() ? "Pagada" : "Pendiente";
 			Object[] fila = { f.getIdFactura(), nombreCliente, estado, f.getMontoTotal() };
 			modelo.addRow(fila);
 		}
-		pagarBtn.setEnabled(false);
-		detalleBtn.setEnabled(false);
 	}
 
 	private void abrirDetalleFactura() {
@@ -146,6 +159,7 @@ public class ListarFacturas extends JDialog {
 			DetalleFactura detalleFactura = new DetalleFactura(factura);
 			detalleFactura.setModal(true);
 			detalleFactura.setVisible(true);
+			cargarFacturas();
 		} else {
 			JOptionPane.showMessageDialog(this, "No se encontró la factura seleccionada.", "Error",
 					JOptionPane.ERROR_MESSAGE);

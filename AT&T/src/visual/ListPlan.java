@@ -73,7 +73,7 @@ public class ListPlan extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				desgloceBtn = new JButton("Modificar/Detallar");
+				desgloceBtn = new JButton("Modificar");
 				desgloceBtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						abrirDetallePlan();
@@ -91,7 +91,7 @@ public class ListPlan extends JDialog {
 				buttonPane.add(eliminarBtn);
 			}
 			{
-				cancelarBtn = new JButton("Cancelar");
+				cancelarBtn = new JButton("Salir");
 				cancelarBtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
