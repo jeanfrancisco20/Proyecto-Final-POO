@@ -366,17 +366,27 @@ public class RegContrato extends JDialog {
 		float cargoMensual = calcularCargoConItbis(planSel.getPrecioBase());
 
 		if (clienteActual == null) {
-			clienteActual = new Cliente(nombreCli, contrasenaCli, idCliente, telCli, direCli, false);
-			Sistema.getInstance().registrarCliente(clienteActual);
+		    Cliente existente = Sistema.getInstance().buscarClientePorId(idCliente);
+		    if (existente != null) {
+		        clienteActual = existente;
+		        clienteActual.setNombre(nombreCli);
+		        clienteActual.setDireccion(direCli);
+		        clienteActual.setTelefono(telCli);
+		        if (!contrasenaCli.isEmpty()) {
+		            clienteActual.setContrasena(contrasenaCli);
+		        }
+		    } else {
+		        clienteActual = new Cliente(nombreCli, contrasenaCli, idCliente, telCli, direCli, false);
+		        Sistema.getInstance().registrarCliente(clienteActual);
+		    }
 		} else {
-			clienteActual.setNombre(nombreCli);
-			clienteActual.setDireccion(direCli);
-			clienteActual.setTelefono(telCli);
-			if (!contrasenaCli.isEmpty()) {
-				clienteActual.setContrasena(contrasenaCli);
-			}
+		    clienteActual.setNombre(nombreCli);
+		    clienteActual.setDireccion(direCli);
+		    clienteActual.setTelefono(telCli);
+		    if (!contrasenaCli.isEmpty()) {
+		        clienteActual.setContrasena(contrasenaCli);
+		    }
 		}
-
 		if (esEdicion) {
 			contratoAEditar.setPlan(planSel);
 			contratoAEditar.setComercialAsignado(comercialSel);
@@ -384,6 +394,7 @@ public class RegContrato extends JDialog {
 			contratoAEditar.setCargoFijoMensual(cargoMensual);
 
 			JOptionPane.showMessageDialog(this, "¡Contrato modificado con éxito!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+			dispose();
 		} else {
 			Contrato nuevoContrato = new Contrato(idContrato, clienteActual, planSel, comercialSel, fechaInicio, true, cargoMensual);
 			Sistema.getInstance().registrarContrato(nuevoContrato);
@@ -392,7 +403,28 @@ public class RegContrato extends JDialog {
 			JOptionPane.showMessageDialog(this, "¡Contrato registrado con éxito!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 		}
 
-		dispose();
+		limpiarcampos();
+	}
+
+	private void limpiarcampos() {
+		clienteActual = null;
+
+		if (!esEdicion) {
+			txtIDcontrato.setText(generarIdContrato());
+			txtIDcontrato.setEditable(false);
+			txtIdcliente.setText("");
+			txtIdcliente.setEditable(true);
+		}
+
+		txtNomCliente.setText("");
+		txtDireCliente.setText("");
+		txtTelCliente.setText("");
+		txtContrasena.setText("");
+
+		cbxPlanes.setSelectedIndex(0);
+		cbxComerciales.setSelectedIndex(0);
+		txtCargoMensual.setText("");
+		txtFecha.setText("dd/mm/yyyy");
 	}
 
 	private String generarIdContrato() {

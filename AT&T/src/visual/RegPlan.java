@@ -316,6 +316,7 @@ public class RegPlan extends JDialog {
 
 			JOptionPane.showMessageDialog(this, "\u00A1Plan modificado con \u00E9xito!", "\u00C9xito",
 					JOptionPane.INFORMATION_MESSAGE);
+			
 		} else {
 			boolean estadoInicial = false;
 			Plan nuevoPlan = new Plan(id, nombre, descripcion, precioFinal, new ArrayList<>(misServiciosTemp),
@@ -326,6 +327,23 @@ public class RegPlan extends JDialog {
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 
-		dispose();
+		limpiarcampos();
+	}
+
+	private void limpiarcampos() {
+		nombreTxt.setText("");
+		descripcionTxt.setText("");
+
+		misServiciosTemp.clear();
+		modelosDisponibles.removeAllElements();
+		modelosElegidos.removeAllElements();
+
+		costoTotalAcumulado = 0.0f;
+		actualizarCostoVisual();
+
+		if (!esEdicion) {
+			idTxt.setText(generarIdPlanAutomatico());
+			cargarServiciosDisponiblesIniciales();
+		}
 	}
 }

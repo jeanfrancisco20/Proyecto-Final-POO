@@ -373,10 +373,21 @@ public class RegServicio extends JDialog {
 			}
 
 			JOptionPane.showMessageDialog(this, "Servicio registrado exitosamente.", "Información", JOptionPane.INFORMATION_MESSAGE);
-			dispose();
+			limpiarcampos();
 
 		} catch (NumberFormatException e) {
 			JOptionPane.showMessageDialog(this, "Verifique que los valores numéricos sean correctos.", "Error", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+
+	private void limpiarcampos() {
+		txtId.setText(generarIdServicioAutomatico());
+		txtFechaContratacion.setValue(new java.util.Date());
+
+		chckbxInternet.setSelected(false);
+		chckbxTelefono.setSelected(false);
+		chckbxCable.setSelected(false);
+
+		actualizarCampos();
 	}
 }
