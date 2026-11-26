@@ -1,6 +1,7 @@
 package visual;
 
 import java.awt.BorderLayout;
+
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -75,10 +76,6 @@ public class RegPlan extends JDialog {
 			JPanel panel = new JPanel();
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
-
-			JLabel lblNewLabel = new JLabel("Identificador:");
-			lblNewLabel.setBounds(12, 13, 96, 16);
-			panel.add(lblNewLabel);
 
 			idTxt = new JTextField();
 			idTxt.setBounds(12, 32, 196, 22);

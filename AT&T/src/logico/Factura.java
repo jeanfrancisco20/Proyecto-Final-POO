@@ -5,7 +5,11 @@ import java.util.Date;
 
 public class Factura implements Serializable{
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4959283773327261989L;
+	//private static final long serialVersionUID = 1L;
 
 	private String idFactura;
 	private Cliente cliente;

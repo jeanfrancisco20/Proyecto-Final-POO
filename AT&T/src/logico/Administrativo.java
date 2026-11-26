@@ -4,7 +4,11 @@ import java.util.Date;
 
 public class Administrativo extends Empleado {
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2395082754905620395L;
+	//private static final long serialVersionUID = 1L;
 	private float bonoAnual;
 
 	public Administrativo(String idEmpleado, String nombre, String contrasena, String puesto,

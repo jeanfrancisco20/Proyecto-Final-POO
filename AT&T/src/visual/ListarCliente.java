@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 
 import logico.Cliente;
 import logico.Contrato;
+import logico.Factura;
 import logico.Sistema;
 
 public class ListarCliente extends JDialog {
@@ -137,7 +138,26 @@ public class ListarCliente extends JDialog {
 			return;
 		}
 
-		for (Contrato contrato : Sistema.getInstance().getMisContratos()) {
+		boolean tieneDeuda = false;
+		if (cliente.getFacturas() != null) {
+			for (Factura factura : cliente.getFacturas()) {
+				if (factura != null && !factura.isPagada()) {
+					tieneDeuda = true;
+					break;
+				}
+			}
+		}
+
+		if (tieneDeuda) {
+			JOptionPane.showMessageDialog(
+					this,
+					"No se puede eliminar el cliente porque tiene facturas pendientes de pago.",
+					"Factura pendiente",
+					JOptionPane.WARNING_MESSAGE
+			);
+			return;
+		}
+		/*for (Contrato contrato : Sistema.getInstance().getMisContratos()) {
 			if (!contrato.getEstadoContrato() || contrato.getCliente() == null) {
 				continue;
 			}
@@ -148,7 +168,7 @@ public class ListarCliente extends JDialog {
 						JOptionPane.WARNING_MESSAGE);
 				return;
 			}
-		}
+		}*/
 		int opcion = JOptionPane.showConfirmDialog(this, "¿Está seguro que desea eliminar este cliente?",
 				"Confirmar eliminación", JOptionPane.YES_NO_OPTION);
 
