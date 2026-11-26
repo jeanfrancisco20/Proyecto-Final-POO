@@ -4,9 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Sistema implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class Sistema implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7144875664777846294L;
 	private ArrayList<Empleado> misEmpleados;
 	private ArrayList<Plan> misPlanes;
 	private ArrayList<Servicio> misServicios;
