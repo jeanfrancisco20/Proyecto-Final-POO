@@ -118,7 +118,6 @@ public class Sistema implements Serializable{
 		if (factura != null && !factura.isPagada()) {
 			factura.setPagada(true);
 			factura.setFechaPago(new Date());
-			
 			if (factura.getCliente() != null) {
 				factura.getCliente().facturasPorPagar();
 			}
@@ -185,7 +184,7 @@ public class Sistema implements Serializable{
 	    Cliente cliente= contrato.getCliente();
 	    cliente.facturasPorPagar();
 	    deuda = cliente.isDesactivado();
-	    
+	    contrato.getPlan().setEstado(true);
 	    if (!existe && !deuda) {
 	        misContratos.add(contrato);
 	    }
@@ -262,5 +261,14 @@ public class Sistema implements Serializable{
 		}
 
 		return false;
+	}
+	
+	public void desactivarDespuesDeFactura(String idContrato) {
+		Contrato auxContrato = buscarContratoPorId(idContrato);
+		if (auxContrato == null || auxContrato.getCliente() == null) {
+			return;
+		}
+
+		auxContrato.getPlan().setEstado(false);
 	}
 }

@@ -249,7 +249,7 @@ public class RegPlan extends JDialog {
 
 	private String generarIdPlanAutomatico() {
 		int num = Sistema.getInstance().getMisPlanes().size() + 1;
-		return "0000" + num;
+		return "PLAN-" + num;
 	}
 
 	private void agregarServicioSeleccionado() {
@@ -315,7 +315,7 @@ public class RegPlan extends JDialog {
 			JOptionPane.showMessageDialog(this, "\u00A1Plan modificado con \u00E9xito!", "\u00C9xito",
 					JOptionPane.INFORMATION_MESSAGE);
 		} else {
-			boolean estadoInicial = true;
+			boolean estadoInicial = false;
 			Plan nuevoPlan = new Plan(id, nombre, descripcion, precioFinal, new ArrayList<>(misServiciosTemp),
 					estadoInicial);
 
