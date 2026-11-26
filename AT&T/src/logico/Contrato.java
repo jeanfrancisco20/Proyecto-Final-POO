@@ -6,7 +6,11 @@ import java.util.Date;
 
 public class Contrato implements Serializable{
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2181853997477651970L;
+	//private static final long serialVersionUID = 1L;
 
 	private String idContrato;
 	private Cliente cliente;

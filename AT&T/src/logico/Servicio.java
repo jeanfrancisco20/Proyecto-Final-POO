@@ -5,7 +5,11 @@ import java.sql.Date;
 
 public abstract class Servicio implements Serializable{
 	
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4659214418894767257L;
+	//private static final long serialVersionUID = 1L;
 
 	protected String idServicio;
 	protected boolean estado;

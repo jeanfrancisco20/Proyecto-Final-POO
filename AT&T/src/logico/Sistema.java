@@ -6,7 +6,11 @@ import java.util.Date;
 
 public class Sistema implements Serializable{
 	
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7144875664777846294L;
+	//private static final long serialVersionUID = 1L;
 	private ArrayList<Empleado> misEmpleados;
 	private ArrayList<Plan> misPlanes;
 	private ArrayList<Servicio> misServicios;
