@@ -40,6 +40,13 @@ import javax.swing.ImageIcon;
 import java.awt.Image;
 
 import logico.Sistema;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 
 public class Principal extends JFrame {
 
@@ -107,6 +114,21 @@ public class Principal extends JFrame {
 	}
 
 	public Principal() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				java.io.File archivo = new java.io.File("data.dat");
+
+				try (FileOutputStream data2 = new FileOutputStream(archivo);
+						ObjectOutputStream dataWrite = new ObjectOutputStream(data2)) {
+					dataWrite.writeObject(Sistema.getInstance());
+					dataWrite.flush();
+				} catch (Exception e1) {
+					System.out.println("ERROR al guardar:");
+					e1.printStackTrace();
+				}
+			}
+		});
 		setBackground(SystemColor.menu);
 		setTitle("AT&T");
 		setIconImage(

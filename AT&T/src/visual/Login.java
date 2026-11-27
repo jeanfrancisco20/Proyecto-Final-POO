@@ -71,8 +71,23 @@ public class Login extends JFrame {
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+		asegurarAdminPorDefecto();
 	}
 
+	private static void asegurarAdminPorDefecto() {
+		boolean existeAdmin = false;
+		for (Empleado emp : Sistema.getInstance().getMisEmpleados()) {
+			if (emp != null && "Admin".equals(emp.getNombre())) {
+				existeAdmin = true;
+				break;
+			}
+		}
+		if (!existeAdmin) {
+			Empleado aux = new Administrativo("1", "Admin", "Admin", "Administrador", 0, 0f, new Date(), 0f);
+			Sistema.getInstance().registrarEmpleado(aux);
+		}
+	}
+	
 	public Login() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 248, 242);

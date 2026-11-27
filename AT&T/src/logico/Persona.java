@@ -1,6 +1,12 @@
 package logico;
 
-public class Persona {
+import java.io.Serializable;
+
+public class Persona implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1411370770832009210L;
 	protected String nombre;
 	protected String contrasena;
 	

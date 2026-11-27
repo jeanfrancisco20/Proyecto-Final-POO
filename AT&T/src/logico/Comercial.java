@@ -7,7 +7,11 @@ public class Comercial extends Empleado {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 8426052516708249931L;
+	/**
+	 * 
+	 */
+	//private static final long serialVersionUID = 1L;
 	private int ventasRealizadas;
 	private float comisionPorVenta;
 	
