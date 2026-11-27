@@ -114,20 +114,27 @@ public class Principal extends JFrame {
 	}
 
 	public Principal() {
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				java.io.File archivo = new java.io.File("data.dat");
-
-				try (FileOutputStream data2 = new FileOutputStream(archivo);
-						ObjectOutputStream dataWrite = new ObjectOutputStream(data2)) {
-					dataWrite.writeObject(Sistema.getInstance());
-					dataWrite.flush();
-				} catch (Exception e1) {
-					System.out.println("ERROR al guardar:");
-					e1.printStackTrace();
+				String[] opc = {"Cerrar sesión", "Salir", "Cancelar"};
+				int seleccion = JOptionPane.showOptionDialog(Principal.this, "¿Qué deseas hacer?", "Confirmar acción", JOptionPane.YES_NO_CANCEL_OPTION,
+															JOptionPane.QUESTION_MESSAGE, null, opc, opc[2]);
+				
+				if(seleccion == 0) {
+						guardarSistema();
+						Login login = new Login();
+						login.setVisible(true);
+						dispose();
+					}else if(seleccion == 1) {
+						guardarSistema();
+						dispose();
+						System.exit(0);
+					}
 				}
-			}
+				
 		});
 		setBackground(SystemColor.menu);
 		setTitle("AT&T");
@@ -136,7 +143,6 @@ public class Principal extends JFrame {
 			        getClass().getResource("/img/conexion.png")
 			    ).getImage()
 			);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1020, 683);
 		setLocationRelativeTo(null);
 
@@ -306,6 +312,20 @@ public class Principal extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+	}
+
+	protected void guardarSistema() {
+		java.io.File archivo = new java.io.File("data.dat");
+
+		try (FileOutputStream data2 = new FileOutputStream(archivo);
+				ObjectOutputStream dataWrite = new ObjectOutputStream(data2)) {
+			dataWrite.writeObject(Sistema.getInstance());
+			dataWrite.flush();
+		} catch (Exception e1) {
+			System.out.println("ERROR al guardar:");
+			e1.printStackTrace();
+		}
+		
 	}
 
 	private void estilizarMenu(JMenu menu, Font fuenteMenu, Font fuenteItem) {
